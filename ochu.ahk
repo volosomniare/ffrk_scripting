@@ -1,28 +1,4 @@
-; IMPORTANT INFO ABOUT GETTING STARTED: Lines that start with a
-; semicolon, such as this one, are comments.  They are not executed.
-
-; This script has a special filename and path because it is automatically
-; launched when you run the program directly.  Also, any text file whose
-; name ends in .ahk is associated with the program, which means that it
-; can be launched simply by double-clicking it.  You can have as many .ahk
-; files as you want, located in any folder.  You can also run more than
-; one ahk file simultaneously and each will get its own tray icon.
-
-; SAMPLE HOTKEYS: Below are two sample hotkeys.  The first is Win+Z and it
-; launches a web site in the default browser.  The second is Control+Alt+N
-; and it launches a new Notepad window (or activates an existing one).  To
-; try out these hotkeys, run AutoHotkey again, which will load this file.
-
-#z::Run www.autohotkey.com
-
-^!n::
-IfWinExist Untitled - Notepad
-	WinActivate
-else
-	Run Notepad
-return
-
-; constant initialization
+; constant initialization DO NOT EDIT
 ^!c:: ; initialize constants
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
 sel2 := [480, 630]
@@ -36,13 +12,15 @@ sb := [480, 840]
 rw := [180, 700]
 mag := [300, 700]
 
+
+; EDIT THIS PART
+characters := ["locke", "ignis", "auron", "papa", "terra"]
+
 locke := ["ruby_spark1.png", "soul_burn2.png"]
 ignis := ["ruby_spark1.png", "fire_assault2.png"]
 auron := ["smoldering_moon1.png", "warring_flame2.png"]
 papa := ["chain_firaja1.png", "chain_firaga2.png"]
 terra := ["meltdown1.png", "sudden_freeze2.png"]
-
-characters := ["locke", "ignis", "auron", "papa", "terra"]
 
 locke_moves := [sb, ab1, ab2, ab1, ab2, ab1]
 ignis_moves := [sb, ab2, ab2, ab2, ab2, ab2]
@@ -50,6 +28,7 @@ auron_moves := [ab1, ab2, ab2, ab2]
 papa_moves := [rw, ab1, ab1, ab1, ab1, ab1]
 terra_moves := [ab1]
 char_counter := {}
+; DO NOT EDIT BEYOND THIS PART
 
 ^!s:: ; Start from the main screen (dungeon difficulty select screen)
 MainScreen:
