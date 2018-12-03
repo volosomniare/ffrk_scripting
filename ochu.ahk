@@ -195,8 +195,8 @@ else {
 }
 
 ResultScreen2:
-ImageSearch nextX, nextY, 0, 0, WinWidth, WinHeight, images/next3.png
 Loop {
+	ImageSearch nextX, nextY, 0, 0, WinWidth, WinHeight, images/next3.png
 	Click %nextX%, %nextY%
 	Sleep 1000
 	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, images/ochu.png
