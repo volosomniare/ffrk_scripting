@@ -73,6 +73,7 @@ Loop {
 		Sleep 2000
 		break
 	}
+	Sleep 1000
 }
 
 RoamingWarriorScreen:
@@ -105,7 +106,9 @@ Loop {
 		Click %goX%, %goY%
 		break
 	}
-	Click %refreshX%, %refreshY%
+	else if (refreshX > 0) {
+		Click %refreshX%, %refreshY%
+	}
 	Sleep 2000
 }
 Sleep 4000
@@ -119,6 +122,7 @@ Loop {
 		Sleep 1000
 		break
 	}
+	Sleep 500
 }
 
 ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/begin.png
@@ -209,7 +213,7 @@ Loop {
 ^!r::Reload  ; reload script
 
 ^!t:: ; Test
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/next3.png
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/stamina.png
 if (ErrorLevel = 0) {
 	MsgBox Found image at %FoundX%, %FoundY%
 }
