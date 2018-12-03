@@ -62,7 +62,7 @@ if (ErrorLevel = 1) {
 }
 else {
 	Click %FoundX%, %FoundY%
-	Sleep 4000
+	Sleep 2000
 }
 
 PartyScreen:
@@ -187,18 +187,29 @@ Sleep 1000
 ImageSearch yesX, yesY, 0, 0, WinWidth, WinHeight, images/yes.png
 if (ErrorLevel = 0) {
 	Click %yesX%, %yesY%
-	Sleep 1000
-	Goto ResultScreen
+	Sleep 2000
+	Goto ResultScreen2
 }
 else {
 	MsgBox Could not find "yes" button on the quit screen.
+}
+
+ResultScreen2:
+ImageSearch nextX, nextY, 0, 0, WinWidth, WinHeight, images/next3.png
+Loop {
+	Click %nextX%, %nextY%
+	Sleep 1000
+	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, images/ochu.png
+	if (ErrorLevel = 0) {
+		Goto MainScreen
+	}
 }
 
 ^!p::pause ; pause script
 ^!r::Reload  ; reload script
 
 ^!t:: ; Test
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/stamina.png
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/next3.png
 if (ErrorLevel = 0) {
 	MsgBox Found image at %FoundX%, %FoundY%
 }
