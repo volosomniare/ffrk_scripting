@@ -13,12 +13,15 @@ rw := [180, 700]
 mag := [300, 700]
 
 
-; EDIT THIS PART
+; YOU CAN EDIT THIS PART
+use_dvg := 0 ; should game search for divine veil grimoire rw? 1-yes 0-no 
+use_hmg := 0 ; should game search for hyper mighty guard rw? 1-yes 0-no
+
 characters := ["locke", "ignis", "auron", "papa", "terra"]
 
 locke := ["ruby_spark1.png", "soul_burn2.png"]
 ignis := ["ruby_spark1.png", "fire_assault2.png"]
-auron := ["smoldering_moon1.png", "warring_flame2.png"]
+auron := ["damning_flame1.png", "iai_hellfire2.png"]
 papa := ["chain_firaja1.png", "chain_firaga2.png"]
 terra := ["meltdown1.png", "sudden_freeze2.png"]
 
@@ -27,8 +30,10 @@ ignis_moves := [sb, ab2, ab2, ab2, ab2, ab2]
 auron_moves := [ab1, ab2, ab2, ab2]
 papa_moves := [rw, ab1, ab1, ab1, ab1, ab1]
 terra_moves := [ab1]
+
+; DO NOT EDIT BEYOND HERE
 char_counter := {}
-; DO NOT EDIT BEYOND THIS PART
+
 
 ^!s:: ; Start from the main screen (dungeon difficulty select screen)
 MainScreen:
@@ -69,6 +74,7 @@ PartyScreen:
 Loop {
 	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/next.png
 	if (ErrorLevel = 0) {
+		Sleep 500
 		Click %FoundX%, %FoundY%
 		Sleep 2000
 		break
@@ -78,19 +84,25 @@ Loop {
 
 RoamingWarriorScreen:
 Loop {
+	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, images/refresh.png
+	if (refreshX > 0) {
+		break
+	}
+	Sleep 1000
+}
+Loop {
 	ImageSearch, dvg1X, dvg1Y, 0, 0, WinWidth, WinHeight, images/dvg1.png
 	ImageSearch, dvg2X, dvg2Y, 0, 0, WinWidth, WinHeight, images/dvg2.png
 	ImageSearch, dvg3X, dvg3Y, 0, 0, WinWidth, WinHeight, images/dvg3.png
 	ImageSearch, hmg1X, hmg1Y, 0, 0, WinWidth, WinHeight, images/hmg1.png
 	ImageSearch, hmg2X, hmg2Y, 0, 0, WinWidth, WinHeight, images/hmg2.png
 	ImageSearch, hmg3X, hmg3Y, 0, 0, WinWidth, WinHeight, images/hmg3.png
-	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, images/refresh.png
 	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, images/go.png
-	if (dvg1X > 0 or hmg1X > 0) {
+	if ((dvg1X > 0 and use_dvg = 1) or (hmg1X > 0 and use_hmg = 1)) {
 		Click %goX%, %goY%
 		break
 	}
-	else if (dvg2X > 0 or hmg2X > 0) {
+	else if ((dvg2X > 0 and use_dvg = 1) or (hmg2X > 0 and use_hmg = 1)) {
 		selX := sel2[1]
 		selY := sel2[2]
 		Click %selX%, %selY%
@@ -98,7 +110,7 @@ Loop {
 		Click %goX%, %goY%
 		break
 	}
-	else if (dvg3X > 0 or hmg3X > 0) {
+	else if ((dvg3X > 0 and use_dvg = 1) or (hmg3X > 0 and use_hmg = 1)) {
 		selX := sel3[1]
 		selY := sel3[2]
 		Click %selX%, %selY%
@@ -106,12 +118,14 @@ Loop {
 		Click %goX%, %goY%
 		break
 	}
-	else if (refreshX > 0) {
-		Click %refreshX%, %refreshY%
+	else if (use_dvg = 0 and use_hmg = 0) {
+		Click %goX%, %goY%
+		break
 	}
+	Click %refreshX%, %refreshY%
 	Sleep 2000
 }
-Sleep 4000
+Sleep 2000
 
 ^!b:: ; Start from battle map
 BattleMap:
@@ -136,9 +150,13 @@ else {
 
 CancelAuto:
 Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/cancel.png
-	if (ErrorLevel = 0) {
-		Click %FoundX%, %FoundY%
+	ImageSearch, CancelX, CancelY, 0, 0, WinWidth, WinHeight, images/cancel.png
+	ImageSearch, AutoX, AutoY, 0, 0, WinWidth, WinHeight, images/auto.png
+	if (CancelX > 0) {
+		Click %CancelX%, %CancelY%
+		break
+	}
+	if (AutoX > 0) {
 		break
 	}
 	Sleep 500
