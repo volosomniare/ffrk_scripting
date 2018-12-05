@@ -17,17 +17,17 @@ mag := [300, 700]
 use_dvg := 0 ; should game search for divine veil grimoire rw? 1-yes 0-no 
 use_hmg := 0 ; should game search for hyper mighty guard rw? 1-yes 0-no
 
-characters := ["locke", "tyro", "rydia", "papa", "terra"]
+characters := ["locke", "tyro", "onion", "papa", "terra"]
 
 locke := ["ruby_spark1.png", "soul_burn2.png"]
 tyro := ["ruby_spark1.png", "fire_assault2.png"]
-rydia := ["valigarmanda1.png", "neo_bahamut2.png"]
-papa := ["chain_firaja1.png", "chain_firaga2.png"]
-terra := ["meltdown1.png", "sudden_freeze2.png"]
+onion := ["curada1.png", "meltdown2.png"]
+papa := ["chain_firaja1.png", "chain_blizzaga2.png"]
+terra := ["chain_firaga1.png", "sudden_freeze2.png"]
 
 locke_moves := [sb, ab1, ab2, ab1, ab2, ab1]
 tyro_moves := [sb, ab2, ab2, ab2, ab2, ab2]
-rydia_moves := [ab1]
+onion_moves := [ab2]
 papa_moves := [rw, ab1, ab1, ab1, ab1, ab1]
 terra_moves := [ab1]
 
@@ -154,7 +154,6 @@ Loop {
 	ImageSearch, AutoX, AutoY, 0, 0, WinWidth, WinHeight, images/auto.png
 	if (CancelX > 0) {
 		Click %CancelX%, %CancelY%
-		break
 	}
 	if (AutoX > 0) {
 		break
