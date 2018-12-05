@@ -154,11 +154,12 @@ Loop {
 	ImageSearch, AutoX, AutoY, 0, 0, WinWidth, WinHeight, images/auto.png
 	if (CancelX > 0) {
 		Click %CancelX%, %CancelY%
+		CancelX := 0
 	}
 	if (AutoX > 0) {
 		break
 	}
-	Sleep 500
+	Sleep 1000
 }
 
 MoveCharacter:
