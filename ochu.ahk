@@ -17,17 +17,17 @@ mag := [300, 700]
 use_dvg := 0 ; should game search for divine veil grimoire rw? 1-yes 0-no 
 use_hmg := 0 ; should game search for hyper mighty guard rw? 1-yes 0-no
 
-characters := ["locke", "ignis", "auron", "papa", "terra"]
+characters := ["locke", "tyro", "rydia", "papa", "terra"]
 
 locke := ["ruby_spark1.png", "soul_burn2.png"]
-ignis := ["ruby_spark1.png", "fire_assault2.png"]
-auron := ["damning_flame1.png", "iai_hellfire2.png"]
+tyro := ["ruby_spark1.png", "fire_assault2.png"]
+rydia := ["valigarmanda1.png", "neo_bahamut2.png"]
 papa := ["chain_firaja1.png", "chain_firaga2.png"]
 terra := ["meltdown1.png", "sudden_freeze2.png"]
 
 locke_moves := [sb, ab1, ab2, ab1, ab2, ab1]
-ignis_moves := [sb, ab2, ab2, ab2, ab2, ab2]
-auron_moves := [ab1, ab2, ab2, ab2]
+tyro_moves := [sb, ab2, ab2, ab2, ab2, ab2]
+rydia_moves := [ab1]
 papa_moves := [rw, ab1, ab1, ab1, ab1, ab1]
 terra_moves := [ab1]
 
@@ -175,11 +175,15 @@ Loop {
 			char_moves := char . "_moves"
 			char_moves := %char_moves%
 			max_idx := char_moves.MaxIndex()
-			char_counter[char] := Mod(char_counter[char], max_idx) + 1
+			if (last_char <> char) ; prevents dropped input
+			{
+				char_counter[char] := Mod(char_counter[char], max_idx) + 1
+			}
 			moveX := char_moves[char_counter[char]][1]
 			moveY := char_moves[char_counter[char]][2]
 			
 			Click %moveX%, %moveY%
+			last_char := char
 		}	
 	}
 	Sleep 200
