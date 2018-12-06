@@ -40,7 +40,6 @@ MainScreen:
 for idx, char in characters {
 	char_counter[char] := 0
 }
-last_char := ""
 
 ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
 if (ErrorLevel = 1) {
@@ -59,18 +58,16 @@ Loop {
 		Sleep 1000
 		break
 	}
-	Sleep 1000
 }
 
 RaidTypeSelect:
-Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/solo.png
-	if (ErrorLevel = 0) {
-		Click %FoundX%, %FoundY%
-		Sleep 2000
-		break
-	}
-	Sleep 1000
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/solo.png
+if (ErrorLevel = 1) {
+	MsgBox Could not find "solo" button on the raid type screen.
+}
+else {
+	Click %FoundX%, %FoundY%
+	Sleep 2000
 }
 
 PartyScreen:
@@ -206,7 +203,6 @@ Loop {
 	Sleep 1000
 	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *10 images/follow.png
 	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
-	ImageSearch ok2X, ok2Y, 0, 0, WinWidth, WinHeight, *10 images/ok2.png
 	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *10 images/close.png
 	ImageSearch ochuX, ochuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
 	if (followX > 0) {
@@ -214,10 +210,6 @@ Loop {
 	}
 	if (okX > 0) {
 		Click %okX%, %okY%
-	}
-	if (ok2X > 0) {
-		Click %ok2X%, %ok2Y%
-		Goto StartScreen
 	}
 	if (closeX > 0) {
 		Click %closeX%, %closeY%
@@ -259,60 +251,11 @@ Loop {
 	}
 }
 
-StartScreen:
-Loop {
-	ImageSearch playX, playY, 0, 0, WinWidth, WinHeight, *10 images/play.png
-	if (playX > 0) {
-		Click %playX%, %playY%
-		break
-	}
-	Sleep 1000
-}
-^!d:: ; testing change of date
-Loop {
-	ImageSearch ok3X, ok3Y, 0, 0, WinWidth, WinHeight, *10 images/ok3.png
-	ImageSearch ok4X, ok4Y, 0, 0, WinWidth, WinHeight, *10 images/ok4.png
-	ImageSearch close2X, close2Y, 0, 0, WinWidth, WinHeight, *10 images/close2.png
-	ImageSearch eventX, eventY, 0, 0, WinWidth, WinHeight, *10 images/event.png
-	if (ok3X > 0) {
-		Click %ok3X%, %ok3Y%
-	}
-	if (ok4X > 0) {
-		Click %ok4X%, %ok4Y%
-	}
-	if (close2X > 0) {
-		Click %close2X%, %close2Y%
-	}
-	if (eventX > 0) {
-		Click %eventX%, %eventY%
-		break
-	}
-	Sleep 1000
-}
-Loop {
-	ImageSearch raidX, raidY, 0, 0, WinWidth, WinHeight, *10 images/raid.png
-	if (raidX > 0) {
-		Click %raidX%, %raidY%
-		break
-	}
-	Sleep 1000
-}
-Loop {
-	ImageSearch lordX, lordY, 0, 0, WinWidth, WinHeight, *10 images/lord.png
-	if (lordX > 0) {
-		Click %lordX%, %lordY%
-		Sleep 3000
-		Goto MainScreen
-	}
-	Sleep 1000
-}
-
-
 ^!p::pause ; pause script
 ^!r::Reload  ; reload script
 
 ^!t:: ; Test
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/ok3.png
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
 if (ErrorLevel = 0) {
 	MsgBox Found image at %FoundX%, %FoundY%
 }
