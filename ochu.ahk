@@ -41,7 +41,7 @@ for idx, char in characters {
 	char_counter[char] := 0
 }
 
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/ochu.png
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
 if (ErrorLevel = 1) {
 	MsgBox Could not find "ochu" button on the main screen.
 }
@@ -52,7 +52,7 @@ else {
 
 SummaryScreen:
 Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/enter.png
+	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/enter.png
 	if (ErrorLevel = 0) {
 		Click %FoundX%, %FoundY%
 		Sleep 1000
@@ -61,7 +61,7 @@ Loop {
 }
 
 RaidTypeSelect:
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/solo.png
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/solo.png
 if (ErrorLevel = 1) {
 	MsgBox Could not find "solo" button on the raid type screen.
 }
@@ -72,7 +72,7 @@ else {
 
 PartyScreen:
 Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/next.png
+	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/next.png
 	if (ErrorLevel = 0) {
 		Sleep 500
 		Click %FoundX%, %FoundY%
@@ -84,20 +84,20 @@ Loop {
 
 RoamingWarriorScreen:
 Loop {
-	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, images/refresh.png
+	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *10 images/refresh.png
 	if (refreshX > 0) {
 		break
 	}
 	Sleep 1000
 }
 Loop {
-	ImageSearch, dvg1X, dvg1Y, 0, 0, WinWidth, WinHeight, images/dvg1.png
-	ImageSearch, dvg2X, dvg2Y, 0, 0, WinWidth, WinHeight, images/dvg2.png
-	ImageSearch, dvg3X, dvg3Y, 0, 0, WinWidth, WinHeight, images/dvg3.png
-	ImageSearch, hmg1X, hmg1Y, 0, 0, WinWidth, WinHeight, images/hmg1.png
-	ImageSearch, hmg2X, hmg2Y, 0, 0, WinWidth, WinHeight, images/hmg2.png
-	ImageSearch, hmg3X, hmg3Y, 0, 0, WinWidth, WinHeight, images/hmg3.png
-	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, images/go.png
+	ImageSearch, dvg1X, dvg1Y, 0, 0, WinWidth, WinHeight, *10 images/dvg1.png
+	ImageSearch, dvg2X, dvg2Y, 0, 0, WinWidth, WinHeight, *10 images/dvg2.png
+	ImageSearch, dvg3X, dvg3Y, 0, 0, WinWidth, WinHeight, *10 images/dvg3.png
+	ImageSearch, hmg1X, hmg1Y, 0, 0, WinWidth, WinHeight, *10 images/hmg1.png
+	ImageSearch, hmg2X, hmg2Y, 0, 0, WinWidth, WinHeight, *10 images/hmg2.png
+	ImageSearch, hmg3X, hmg3Y, 0, 0, WinWidth, WinHeight, *10 images/hmg3.png
+	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *10 images/go.png
 	if ((dvg1X > 0 and use_dvg = 1) or (hmg1X > 0 and use_hmg = 1)) {
 		Click %goX%, %goY%
 		break
@@ -130,7 +130,7 @@ Sleep 2000
 ^!b:: ; Start from battle map
 BattleMap:
 Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/stamina.png
+	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/stamina.png
 	if (ErrorLevel = 0) {
 		Click %FoundX%, %FoundY%
 		Sleep 1000
@@ -139,7 +139,7 @@ Loop {
 	Sleep 500
 }
 
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/begin.png
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/begin.png
 if (ErrorLevel = 1) {
 	MsgBox Could not find "begin battle" button on the battle map.
 }
@@ -150,8 +150,8 @@ else {
 
 CancelAuto:
 Loop {
-	ImageSearch, CancelX, CancelY, 0, 0, WinWidth, WinHeight, images/cancel.png
-	ImageSearch, AutoX, AutoY, 0, 0, WinWidth, WinHeight, images/auto.png
+	ImageSearch, CancelX, CancelY, 0, 0, WinWidth, WinHeight, *10 images/cancel.png
+	ImageSearch, AutoX, AutoY, 0, 0, WinWidth, WinHeight, *10 images/auto.png
 	if (CancelX > 0) {
 		Click %CancelX%, %CancelY%
 		CancelX := 0
@@ -169,8 +169,8 @@ Loop {
 		ab1_img := ab_imgs[1]
 		ab2_img := ab_imgs[2]
 		BottomQuarter := 3 * WinHeight / 4
-		ImageSearch, ab1X, ab1Y, 0, BottomQuarter, WinWidth, WinHeight, images/%ab1_img%
-		ImageSearch, ab2X, ab2Y, 0, BottomQuarter, WinWidth, WinHeight, images/%ab2_img%
+		ImageSearch, ab1X, ab1Y, 0, BottomQuarter, WinWidth, WinHeight, *10 images/%ab1_img%
+		ImageSearch, ab2X, ab2Y, 0, BottomQuarter, WinWidth, WinHeight, *10 images/%ab2_img%
 		if (ab1X > 0 and ab2X > 0) {
 			char_moves := char . "_moves"
 			char_moves := %char_moves%
@@ -187,11 +187,11 @@ Loop {
 		}	
 	}
 	Sleep 200
-	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, images/next2.png
+	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, *10 images/next2.png
 	if (ErrorLevel = 0) {
 		break
 	}
-	ImageSearch, quitX, quitY, 0, 0, WinWidth, WinHeight, images/quit.png
+	ImageSearch, quitX, quitY, 0, 0, WinWidth, WinHeight, *10 images/quit.png
 	if (ErrorLevel = 0) {
 		Goto FailureScreen
 	}
@@ -201,8 +201,16 @@ ResultScreen:
 Loop {
 	Click %nextX%, %nextY%
 	Sleep 1000
-	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, images/ochu.png
-	if (ErrorLevel = 0) {
+	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *10 images/follow.png
+	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
+	ImageSearch ochuX, ochuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
+	if (followX > 0) {
+		Click %followX%, %followY%
+	}
+	if (okX > 0) {
+		Click %okX%, %okY%
+	}
+	if (ochuX > 0) {
 		Goto MainScreen
 	}
 }
@@ -210,7 +218,7 @@ Loop {
 FailureScreen:
 Click %quitX%, %quitY%
 Sleep 1000
-ImageSearch yesX, yesY, 0, 0, WinWidth, WinHeight, images/yes.png
+ImageSearch yesX, yesY, 0, 0, WinWidth, WinHeight, *10 images/yes.png
 if (ErrorLevel = 0) {
 	Click %yesX%, %yesY%
 	Sleep 2000
@@ -222,11 +230,19 @@ else {
 
 ResultScreen2:
 Loop {
-	ImageSearch nextX, nextY, 0, 0, WinWidth, WinHeight, images/next3.png
+	ImageSearch nextX, nextY, 0, 0, WinWidth, WinHeight, *10 images/next3.png
 	Click %nextX%, %nextY%
 	Sleep 1000
-	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, images/ochu.png
-	if (ErrorLevel = 0) {
+	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *10 images/follow.png
+	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
+	ImageSearch ochuX, ochuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
+	if (followX > 0) {
+		Click %followX%, %followY%
+	}
+	if (okX > 0) {
+		Click %okX%, %okY%
+	}
+	if (ochuX > 0) {
 		Goto MainScreen
 	}
 }
@@ -235,7 +251,7 @@ Loop {
 ^!r::Reload  ; reload script
 
 ^!t:: ; Test
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, images/stamina.png
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
 if (ErrorLevel = 0) {
 	MsgBox Found image at %FoundX%, %FoundY%
 }
