@@ -203,12 +203,16 @@ Loop {
 	Sleep 1000
 	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *10 images/follow.png
 	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
+	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *10 images/close.png
 	ImageSearch ochuX, ochuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
 	if (followX > 0) {
 		Click %followX%, %followY%
 	}
 	if (okX > 0) {
 		Click %okX%, %okY%
+	}
+	if (closeX > 0) {
+		Click %closeX%, %closeY%
 	}
 	if (ochuX > 0) {
 		Goto MainScreen
