@@ -14,8 +14,11 @@ mag := [300, 700]
 
 
 ; YOU CAN EDIT THIS PART
-use_dvg := 0 ; should game search for divine veil grimoire rw? 1-yes 0-no 
-use_hmg := 0 ; should game search for hyper mighty guard rw? 1-yes 0-no
+use_dvg := 0 ; should the game search for divine veil grimoire rw? 1-yes 0-no 
+use_hmg := 0 ; should the game search for hyper mighty guard rw? 1-yes 0-no
+
+restart_nox := 1 ; should the game restart nox after doing a certain number of runs? 1-yes 0-no
+restart_number := 50 ; how many runs should the game do before restarting nox
 
 characters := ["locke", "tyro", "onion", "papa", "terra"]
 
@@ -33,7 +36,7 @@ terra_moves := [ab1]
 
 ; DO NOT EDIT BEYOND HERE
 char_counter := {}
-
+run_counter := 0
 
 ^!s:: ; Start from the main screen (dungeon difficulty select screen)
 MainScreen:
@@ -41,114 +44,143 @@ for idx, char in characters {
 	char_counter[char] := 0
 }
 last_char := ""
+run_counter := run_counter + 1
 
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
+if (run_counter > restart_number and restart_nox = 1) {
+	Goto Restart
+}
+
+ImageSearch, OchuX, OchuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
 if (ErrorLevel = 1) {
 	MsgBox Could not find "ochu" button on the main screen.
 }
 else {
-	Click %FoundX%, %FoundY%
-	Sleep 1000
+	Loop {
+		if (OchuX > 0) {
+			Click %OchuX%, %OchuY%
+		}
+		Sleep 1000
+		ImageSearch, OchuX, OchuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
+		ImageSearch, EnterX, EnterY, 0, 0, WinWidth, WinHeight, *10 images/enter.png
+		if (EnterX > 0) {
+			break
+		}
+	}
 }
 
 SummaryScreen:
 Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/enter.png
-	if (ErrorLevel = 0) {
-		Click %FoundX%, %FoundY%
-		Sleep 1000
-		break
+	if (EnterX > 0) {
+		Click %EnterX%, %EnterY%
 	}
 	Sleep 1000
+	ImageSearch, EnterX, EnterY, 0, 0, WinWidth, WinHeight, *10 images/enter.png
+	ImageSearch, SoloX, SoloY, 0, 0, WinWidth, WinHeight, *10 images/solo.png
+	if (SoloX > 0) {
+		break
+	}
 }
 
 RaidTypeSelect:
 Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/solo.png
-	if (ErrorLevel = 0) {
-		Click %FoundX%, %FoundY%
-		Sleep 2000
-		break
+	if (SoloX > 0) {
+		Click %SoloX%, %SoloY%
 	}
 	Sleep 1000
+	ImageSearch, SoloX, SoloY, 0, 0, WinWidth, WinHeight, *10 images/solo.png
+	ImageSearch, NextX, NextY, 0, 0, WinWidth, WinHeight, *10 images/next.png
+	if (NextX > 0) {
+		break
+	}
 }
 
 PartyScreen:
 Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/next.png
-	if (ErrorLevel = 0) {
-		Sleep 500
-		Click %FoundX%, %FoundY%
-		Sleep 2000
-		break
+	if (NextX > 0) {
+		Click %NextX%, %NextY%
 	}
 	Sleep 1000
+	ImageSearch, NextX, NextY, 0, 0, WinWidth, WinHeight, *10 images/next.png
+	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *10 images/refresh.png
+	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *10 images/go.png
+	if (refreshX > 0 and goX > 0) {
+		break
+	}
 }
 
 RoamingWarriorScreen:
 Loop {
-	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *10 images/refresh.png
-	if (refreshX > 0) {
-		break
-	}
-	Sleep 1000
-}
-Loop {
 	ImageSearch, dvg1X, dvg1Y, 0, 0, WinWidth, WinHeight, *10 images/dvg1.png
 	ImageSearch, dvg2X, dvg2Y, 0, 0, WinWidth, WinHeight, *10 images/dvg2.png
 	ImageSearch, dvg3X, dvg3Y, 0, 0, WinWidth, WinHeight, *10 images/dvg3.png
+	
 	ImageSearch, hmg1X, hmg1Y, 0, 0, WinWidth, WinHeight, *10 images/hmg1.png
 	ImageSearch, hmg2X, hmg2Y, 0, 0, WinWidth, WinHeight, *10 images/hmg2.png
 	ImageSearch, hmg3X, hmg3Y, 0, 0, WinWidth, WinHeight, *10 images/hmg3.png
+	
+	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *10 images/refresh.png
 	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *10 images/go.png
-	if ((dvg1X > 0 and use_dvg = 1) or (hmg1X > 0 and use_hmg = 1)) {
-		Click %goX%, %goY%
+	
+	ImageSearch, StaminaX, StaminaY, 0, 0, WinWidth, WinHeight, *10 images/stamina.png
+	if (StaminaX > 0) {
 		break
+	}
+	else if ((dvg1X > 0 and use_dvg = 1) or (hmg1X > 0 and use_hmg = 1)) {
+		if (goX > 0) {
+			Click %goX%, %goY%
+		}
 	}
 	else if ((dvg2X > 0 and use_dvg = 1) or (hmg2X > 0 and use_hmg = 1)) {
 		selX := sel2[1]
 		selY := sel2[2]
 		Click %selX%, %selY%
 		Sleep 500
-		Click %goX%, %goY%
-		break
+		if (goX > 0) {
+			Click %goX%, %goY%
+		}
 	}
 	else if ((dvg3X > 0 and use_dvg = 1) or (hmg3X > 0 and use_hmg = 1)) {
 		selX := sel3[1]
 		selY := sel3[2]
 		Click %selX%, %selY%
 		Sleep 500
-		Click %goX%, %goY%
-		break
+		if (goX > 0) {
+			Click %goX%, %goY%
+		}
 	}
 	else if (use_dvg = 0 and use_hmg = 0) {
-		Click %goX%, %goY%
-		break
+		if (goX > 0) {
+			Click %goX%, %goY%
+		}
 	}
-	Click %refreshX%, %refreshY%
-	Sleep 2000
+	else {
+		if (refreshX > 0) {
+			Click %refreshX%, %refreshY%
+		}
+	}
+	Sleep 1000
 }
-Sleep 2000
 
-^!b:: ; Start from battle map
 BattleMap:
 Loop {
-	ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/stamina.png
-	if (ErrorLevel = 0) {
-		Click %FoundX%, %FoundY%
-		Sleep 1000
+	if (StaminaX > 0) {
+		Click %StaminaX%, %StaminaY%
+	}
+	Sleep 1000
+	ImageSearch, StaminaX, StaminaY, 0, 0, WinWidth, WinHeight, *10 images/stamina.png
+	ImageSearch, BeginX, BeginY, 0, 0, WinWidth, WinHeight, *10 images/begin.png
+	if (BeginX > 0) {
 		break
 	}
-	Sleep 500
 }
 
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/begin.png
-if (ErrorLevel = 1) {
-	MsgBox Could not find "begin battle" button on the battle map.
-}
-else {
-	Click %FoundX%, %FoundY%
-	Sleep 5000
+Loop {
+	Click %BeginX%, %BeginY%
+	Sleep 1000
+	ImageSearch, BeginX, BeginY, 0, 0, WinWidth, WinHeight, *10 images/begin.png
+	if (ErrorLevel <> 0) {
+		break
+	}
 }
 
 CancelAuto:
@@ -157,7 +189,6 @@ Loop {
 	ImageSearch, AutoX, AutoY, 0, 0, WinWidth, WinHeight, *10 images/auto.png
 	if (CancelX > 0) {
 		Click %CancelX%, %CancelY%
-		CancelX := 0
 	}
 	if (AutoX > 0) {
 		break
@@ -268,7 +299,6 @@ Loop {
 	}
 	Sleep 1000
 }
-^!d:: ; testing change of date
 Loop {
 	ImageSearch ok3X, ok3Y, 0, 0, WinWidth, WinHeight, *10 images/ok3.png
 	ImageSearch ok4X, ok4Y, 0, 0, WinWidth, WinHeight, *10 images/ok4.png
@@ -307,12 +337,41 @@ Loop {
 	Sleep 1000
 }
 
+Restart:
+run_counter := 0
+
+ImageSearch killX, killY, 0, 0, WinWidth, WinHeight, *10 images/kill.png
+if (killX > 0) {
+	Click %killX%, %killY%
+}
+Sleep 1000
+
+ImageSearch restartX, restartY, 0, 0, WinWidth, WinHeight, *10 images/restart.png
+if (restartX > 0) {
+	Click %restartX%, %restartY%
+}
+Sleep 30000
+WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
+Loop {
+	ImageSearch installX, installY, 0, 0, WinWidth, WinHeight, *10 images/install.png
+	ImageSearch ffrkX, ffrkY, 0, 0, WinWidth, WinHeight, *10 images/ffrk.png
+	if (installX > 0) {
+		installX := installX + 300 ; this moves outside of the popup so it doesn't trigger it
+		Click %installX%, %installY%
+	}
+	if (ffrkX > 0) {
+		Click %ffrkX%, %ffrkY%
+		Sleep 5000
+		WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
+		Goto StartScreen
+	}
+}
 
 ^!p::pause ; pause script
 ^!r::Reload  ; reload script
 
 ^!t:: ; Test
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/ok3.png
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/install.png
 if (ErrorLevel = 0) {
 	MsgBox Found image at %FoundX%, %FoundY%
 }
