@@ -20,19 +20,19 @@ use_hmg := 0 ; should the game search for hyper mighty guard rw? 1-yes 0-no
 restart_nox := 1 ; should the game restart nox after doing a certain number of runs? 1-yes 0-no
 restart_number := 90 ; how many runs should the game do before restarting nox
 
-characters := ["locke", "tyro", "onion", "papa", "terra"]
+characters := ["locke", "tyro", "yda", "papa", "terra"]
 
-locke := ["ruby_spark1.png", "soul_burn2.png"]
-tyro := ["ruby_spark1.png", "fire_assault2.png"]
-onion := ["curada1.png", "meltdown2.png"]
+locke := ["ruby_spark1.png", "fire_assault2.png"]
+tyro := ["damning_flame1.png", "iai_hellfire2.png"]
+yda := ["fires_within1.png", "burning_rush2.png"]
 papa := ["chain_firaja1.png", "chain_blizzaga2.png"]
-terra := ["chain_firaga1.png", "sudden_freeze2.png"]
+terra := ["meltdown1.png", "sudden_freeze2.png"]
 
-locke_moves := [sb, ab1, ab2, ab1, ab2, ab1]
-tyro_moves := [sb, ab2, ab2, ab2, ab2, ab2]
-onion_moves := [ab2]
-papa_moves := [rw, ab1, ab1, ab1, ab1, ab1]
-terra_moves := [ab1]
+locke_moves := [sb, ab2, ab2, ab2, ab2, ab2]
+tyro_moves := [sb, ab1, ab2, ab2, ab2, ab2]
+yda_moves := [ab1, ab2]
+papa_moves := [ab1]
+terra_moves := [rw, ab1, ab1, ab1, ab1, ab1]
 
 ; DO NOT EDIT BEYOND HERE
 char_counter := {}
@@ -53,17 +53,17 @@ if (run_counter > restart_number and restart_nox = 1) {
 	Goto Restart
 }
 
-ImageSearch, OchuX, OchuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
+ImageSearch, TaharkaX, TaharkaY, 0, 0, WinWidth, WinHeight, *10 images/taharka2.png
 if (ErrorLevel = 1) {
-	MsgBox Could not find "ochu" button on the main screen.
+	MsgBox Could not find "taharka" button on the main screen.
 }
 else {
 	Loop {
-		if (OchuX > 0) {
-			Click %OchuX%, %OchuY%
+		if (TaharkaX > 0) {
+			Click %TaharkaX%, %TaharkaY%
 		}
 		Sleep 1000
-		ImageSearch, OchuX, OchuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
+		ImageSearch, TaharkaX, TaharkaY, 0, 0, WinWidth, WinHeight, *10 images/taharka2.png
 		ImageSearch, EnterX, EnterY, 0, 0, WinWidth, WinHeight, *10 images/enter.png
 		if (EnterX > 0) {
 			break
@@ -243,7 +243,7 @@ Loop {
 	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
 	ImageSearch ok2X, ok2Y, 0, 0, WinWidth, WinHeight, *10 images/ok2.png
 	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *10 images/close.png
-	ImageSearch ochuX, ochuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
+	ImageSearch taharkaX, taharkaY, 0, 0, WinWidth, WinHeight, *10 images/taharka2.png
 	ImageSearch greenX, greenY, 0, 0, WinWidth, WinHeight, *10 images/green.png
 	if (followX > 0) {
 		Click %followX%, %followY%
@@ -261,7 +261,7 @@ Loop {
 	if (greenX > 0) {
 		green_counter := green_counter + 1
 	}
-	if (ochuX > 0) {
+	if (taharkaX > 0) {
 		Goto MainScreen
 	}
 }
@@ -286,14 +286,14 @@ Loop {
 	Sleep 1000
 	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *10 images/follow.png
 	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
-	ImageSearch ochuX, ochuY, 0, 0, WinWidth, WinHeight, *10 images/ochu.png
+	ImageSearch taharkaX, taharkaY, 0, 0, WinWidth, WinHeight, *10 images/taharka2.png
 	if (followX > 0) {
 		Click %followX%, %followY%
 	}
 	if (okX > 0) {
 		Click %okX%, %okY%
 	}
-	if (ochuX > 0) {
+	if (taharkaX > 0) {
 		Goto MainScreen
 	}
 }
@@ -336,9 +336,9 @@ Loop {
 	Sleep 1000
 }
 Loop {
-	ImageSearch lordX, lordY, 0, 0, WinWidth, WinHeight, *10 images/lord.png
-	if (lordX > 0) {
-		Click %lordX%, %lordY%
+	ImageSearch TaharkaX, TaharkaY, 0, 0, WinWidth, WinHeight, *10 images/taharka1.png
+	if (TaharkaX > 0) {
+		Click %TaharkaX%, %TaharkaY%
 		Sleep 3000
 		Goto MainScreen
 	}
