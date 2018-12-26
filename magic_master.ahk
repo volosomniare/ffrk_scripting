@@ -14,25 +14,27 @@ mag := [300, 700]
 
 
 ; YOU CAN EDIT THIS PART
-use_dvg := 0 ; should the game search for divine veil grimoire rw? 1-yes 0-no 
-use_hmg := 0 ; should the game search for hyper mighty guard rw? 1-yes 0-no
+use_rw := 1 ; should the game search for rw? 1-yes 0-no
+rw_img1 := "terra_asb1.png" ; image of rw in slot 1
+rw_img2 := "terra_asb2.png" ; image of rw in slot 2
+rw_img3 := "terra_asb3.png" ; image of rw in slot 3
 
 restart_nox := 1 ; should the game restart nox after doing a certain number of runs? 1-yes 0-no
-restart_number := 90 ; how many runs should the game do before restarting nox
+restart_number := 60 ; how many runs should the game do before restarting nox
 
-characters := ["cloud", "bartz", "onion", "josef", "tyro"]
+characters := ["terra", "yda", "locke", "auron", "tyro"]
 
-cloud := ["damning_flame1.png", "omega_drive2.png"]
-bartz := ["blastspell_strike1.png", "flare_strike2.png"]
-onion := ["dervish1.png", "leaping_rush2.png"]
-josef := ["fires_within1.png", "lifebane2.png"]
-tyro := ["full_break1.png", "magic_breakdown2.png"]
+terra := ["wrath1.png", "valigarmanda2.png"]
+yda := ["wrath1.png", "lifebane2.png"]
+locke := ["steal_power1.png", "steal_defense2.png"]
+auron := ["wrath1.png", "iai_hellfire2.png"]
+tyro := ["enfeebling_jitterbug1.png", "heathen_frolic_sarabande2.png"]
 
-cloud_moves := [ab1, ab2, ab2, ab2, ab2, ab2]
-bartz_moves := [ab1, ab2, ab2, ab2, ab2, ab2]
-onion_moves := [ab1, ab1, ab1, ab1, ab1, ab2, ab2]
-josef_moves := [sb, rw, ab1, ab1, ab1, ab1]
-tyro_moves := [sb, ab1, ab2, ab1, ab2, ab1]
+terra_moves := [ab1, ab1, ab1, sb]
+yda_moves := [ab1, ab1, ab1, sb]
+locke_moves := [ab1, ab2, sb, rw]
+auron_moves := [ab1, ab1, ab1, sb]
+tyro_moves := [sb, ab1, ab2, ab1, a2]
 
 ; DO NOT EDIT BEYOND HERE
 char_counter := {}
@@ -114,13 +116,9 @@ Loop {
 
 RoamingWarriorScreen:
 Loop {
-	ImageSearch, dvg1X, dvg1Y, 0, 0, WinWidth, WinHeight, *10 images/dvg1.png
-	ImageSearch, dvg2X, dvg2Y, 0, 0, WinWidth, WinHeight, *10 images/dvg2.png
-	ImageSearch, dvg3X, dvg3Y, 0, 0, WinWidth, WinHeight, *10 images/dvg3.png
-	
-	ImageSearch, hmg1X, hmg1Y, 0, 0, WinWidth, WinHeight, *10 images/hmg1.png
-	ImageSearch, hmg2X, hmg2Y, 0, 0, WinWidth, WinHeight, *10 images/hmg2.png
-	ImageSearch, hmg3X, hmg3Y, 0, 0, WinWidth, WinHeight, *10 images/hmg3.png
+	ImageSearch, rw1X, rw1Y, 0, 0, WinWidth, WinHeight, *10 images/%rw_img1%
+	ImageSearch, rw2X, rw2Y, 0, 0, WinWidth, WinHeight, *10 images/%rw_img2%
+	ImageSearch, rw3X, rw3Y, 0, 0, WinWidth, WinHeight, *10 images/%rw_img3%
 	
 	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *10 images/refresh.png
 	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *10 images/go.png
@@ -129,12 +127,12 @@ Loop {
 	if (StaminaX > 0) {
 		break
 	}
-	else if ((dvg1X > 0 and use_dvg = 1) or (hmg1X > 0 and use_hmg = 1)) {
+	else if (rw1X > 0 and use_rw = 1) {
 		if (goX > 0) {
 			Click %goX%, %goY%
 		}
 	}
-	else if ((dvg2X > 0 and use_dvg = 1) or (hmg2X > 0 and use_hmg = 1)) {
+	else if (rw2X > 0 and use_rw = 1) {
 		selX := sel2[1]
 		selY := sel2[2]
 		Click %selX%, %selY%
@@ -143,7 +141,7 @@ Loop {
 			Click %goX%, %goY%
 		}
 	}
-	else if ((dvg3X > 0 and use_dvg = 1) or (hmg3X > 0 and use_hmg = 1)) {
+	else if (rw3X > 0 and use_rw = 1) {
 		selX := sel3[1]
 		selY := sel3[2]
 		Click %selX%, %selY%
@@ -152,7 +150,7 @@ Loop {
 			Click %goX%, %goY%
 		}
 	}
-	else if (use_dvg = 0 and use_hmg = 0) {
+	else if (use_rw = 0) {
 		if (goX > 0) {
 			Click %goX%, %goY%
 		}
