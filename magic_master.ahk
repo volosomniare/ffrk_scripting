@@ -360,7 +360,7 @@ Sleep 30000
 
 ^!h:: ; resume from nox home screen
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
-Loop {
+Loop 100{
 	ImageSearch installX, installY, 0, 0, WinWidth, WinHeight, *10 images/install.png
 	ImageSearch ffrkX, ffrkY, 0, 0, WinWidth, WinHeight, *10 images/ffrk.png
 	if (installX > 0) {
@@ -373,7 +373,9 @@ Loop {
 		WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
 		Goto StartScreen
 	}
+	Sleep 1000
 }
+return
 
 ^!p::pause ; pause script
 ^!r::Reload  ; reload script
