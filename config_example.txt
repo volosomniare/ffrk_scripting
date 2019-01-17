@@ -1,3 +1,4 @@
+emulator = mumu ; which emulator are you using (nox and memu supported)
 boss = red_dragon ; name of the boss (current boss is red_dragon)
 
 use_rw = 1 ; should the game search for rw? 1-yes 0-no
@@ -8,12 +9,6 @@ restart_nox = 1 ; should the game restart nox after doing a certain number of ru
 restart_number = 50 ; how many runs should the game do before restarting nox
 
 characters = edge, gabranth, sephiroth, garland, tyro
-
-char_abils1 = ancestral_reflection, shadow_embodied
-char_abils2 = grand_charge, evil_swing
-char_abils3 = lifesiphon, crimson_cross
-char_abils4 = sanguine_cross, dread_weapon
-char_abils5 = enfeebling_jitterbug, multi_break
 
 char_orders1 = ab1, ab1, ab2, ab2, ab2
 char_orders2 = rw, ab1, ab1, ab2, ab1, ab1, ab2

@@ -1,16 +1,6 @@
 ; constant initialization and function definitions 
 ^!c:: ; initialize constants
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
-sel2 := [480, 630]
-sel3 := [480, 770]
-
-att := [50, 840]
-def := [150, 840]
-ab1 := [250, 840]
-ab2 := [350, 840]
-sb := [480, 840]
-rw := [180, 700]
-mag := [300, 700]
 
 char_counter := {}
 run_counter := 0
@@ -20,15 +10,16 @@ green_counter := 0
 green_counter_pos := 0
 skip_friends := 0
 
-char_abils := {}
 char_orders := {}
+img_dir := "images"
 
 FindImageAndClick(images*) {
 	global WinWidth
 	global WinHeight
+	global img_dir
 	Loop {
 		for idx, image in images {
-			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *10 images/%image%
+			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%image%
 			if (imgX > 0) {
 				Click %imgX%, %imgY%
 				if (idx = 1) {
@@ -43,9 +34,10 @@ FindImageAndClick(images*) {
 FindImageAndCheck(images*) {
 	global WinWidth
 	global WinHeight
+	global img_dir
 	Loop {
 		for idx, image in images {
-			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *10 images/%image%
+			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%image%
 			if (imgX > 0) {
 				if (idx = 1) {
 					break 2
@@ -72,6 +64,19 @@ while (eof = 0) {
 	pos := file.Position
 	line := file.ReadLine()
 	line_arr := StrSplit(line, ["=",";"], " `t`r`n")
+	
+	if (line_arr[1] = "emulator") {
+		emulator := line_arr[2]
+		if (emulator = "mumu") {
+			img_dir := "images/mumu"
+		}
+		if (emulator = "nox") {
+			img_dir := "images/nox"
+		}
+		if (emulator = "memu") {
+			img_dir := "images/memu"
+		}
+	}
 	
 	if (line_arr[1] = "boss") {
 		boss := line_arr[2]
@@ -110,22 +115,10 @@ while (eof = 0) {
 		characters := StrSplit(line_arr[2], ",", " `t`r`n")
 	}
 	
-	if (SubStr(line_arr[1], 1, -1) = "char_abils") {
-		char_num := SubStr(line_arr[1], 0)
-		character := characters[char_num]
-		abil_arr := StrSplit(line_arr[2], ",", " `t`r`n")
-		abil_img1 := abil_arr[1] . "1.png"
-		abil_img2 := abil_arr[2] . "2.png"
-		char_abils[character] := [abil_img1, abil_img2]
-	}
-	
 	if (SubStr(line_arr[1], 1, -1) = "char_orders") {
 		char_num := SubStr(line_arr[1], 0)
 		character := characters[char_num]
 		order_arr := StrSplit(line_arr[2], ",", " `t`r`n")
-		for idx, order in order_arr {
-			order_arr[idx] := %order%
-		}
 		char_orders[character] := order_arr
 	}
 	
@@ -154,6 +147,24 @@ if (green_counter_pos = 0) {
 
 file.Close()
 
+;roaming warrior select coordinates
+sel2 := (emulator = "memu") ? [480, 610] : [480, 630]
+sel3 := (emulator = "memu") ? [480, 750] : [480, 770]
+
+;battle command coordinates
+att := (emulator = "memu") ? [50, 810] : [50, 840]
+def := (emulator = "memu") ? [150, 810] : [150, 840]
+ab1 := (emulator = "memu") ? [250, 810] : [250, 840]
+ab2 := (emulator = "memu") ? [350, 810] : [350, 840]
+sb := (emulator = "memu") ? [450, 810] : [480, 840]
+rw := (emulator = "memu") ? [180, 680] : [180, 700]
+mag := (emulator = "memu") ? [300, 680] : [300, 700]
+
+;friend list coordinates
+frnd := (emulator = "memu") ? [70, 400] : [70, 400]
+fol := (emulator = "memu") ? [400, 750] : [420, 770]
+frnd_id := (emulator = "memu") ? [150, 420] : [150, 450]
+
 ^!s:: ; Start from the main screen (dungeon difficulty select screen)
 MainScreen:
 if (run_counter > restart_number and restart_nox = 1) {
@@ -171,14 +182,14 @@ FindImageAndCheck("refresh.png", "next.png", "solo.png", "enter.png", boss_img2)
 
 RoamingWarriorScreen:
 Loop {
-	ImageSearch, rw1X, rw1Y, 0, 0, WinWidth, WinHeight, *10 images/%rw_img1%
-	ImageSearch, rw2X, rw2Y, 0, 0, WinWidth, WinHeight, *10 images/%rw_img2%
-	ImageSearch, rw3X, rw3Y, 0, 0, WinWidth, WinHeight, *10 images/%rw_img3%
+	ImageSearch, rw1X, rw1Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%rw_img1%
+	ImageSearch, rw2X, rw2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%rw_img2%
+	ImageSearch, rw3X, rw3Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%rw_img3%
 	
-	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *10 images/refresh.png
-	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *10 images/go.png
+	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/refresh.png
+	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/go.png
 	
-	ImageSearch, StaminaX, StaminaY, 0, 0, WinWidth, WinHeight, *10 images/stamina.png
+	ImageSearch, StaminaX, StaminaY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/stamina.png
 	if (StaminaX > 0) {
 		break
 	}
@@ -232,30 +243,29 @@ for idx, char in characters {
 last_char := ""
 Loop {
 	for idx, char in characters {
-		ab1_img := char_abils[char][1]
-		ab2_img := char_abils[char][2]
-		BottomQuarter := 3 * WinHeight / 4
-		ImageSearch, ab1X, ab1Y, 0, BottomQuarter, WinWidth, WinHeight, *10 images/%ab1_img%
-		ImageSearch, ab2X, ab2Y, 0, BottomQuarter, WinWidth, WinHeight, *10 images/%ab2_img%
-		if (ab1X > 0 and ab2X > 0) {
+		char_img := "characters/" . char . ".png"
+		ImageSearch, charX, charY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%char_img%
+		if (charX > 0) {
 			max_idx := char_orders[char].MaxIndex()
 			if (last_char <> char) ; prevents dropped input
 			{
 				char_counter[char] := Mod(char_counter[char], max_idx) + 1
 			}
-			moveX := char_orders[char][char_counter[char]][1]
-			moveY := char_orders[char][char_counter[char]][2]
+			move_name := char_orders[char][char_counter[char]]
+			move := %move_name%
+			moveX := move[1]
+			moveY := move[2]
 			
 			Click %moveX%, %moveY%
 			last_char := char
 		}	
 	}
 	Sleep 200
-	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, *10 images/next2.png
+	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/next2.png
 	if (ErrorLevel = 0) {
 		break
 	}
-	ImageSearch, quitX, quitY, 0, 0, WinWidth, WinHeight, *10 images/quit.png
+	ImageSearch, quitX, quitY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/quit.png
 	if (ErrorLevel = 0) {
 		Goto FailureScreen
 	}
@@ -265,12 +275,12 @@ ResultScreen:
 Loop {
 	Click %nextX%, %nextY%
 	Sleep 1000
-	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *10 images/follow.png
-	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *10 images/ok.png
-	ImageSearch ok2X, ok2Y, 0, 0, WinWidth, WinHeight, *10 images/ok2.png
-	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *10 images/close.png
-	ImageSearch bossX, bossY, 0, 0, WinWidth, WinHeight, *10 images/%boss_img2%
-	ImageSearch greenX, greenY, 0, 0, WinWidth, WinHeight, *10 images/green.png
+	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/follow.png
+	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok.png
+	ImageSearch ok2X, ok2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok2.png
+	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/close.png
+	ImageSearch bossX, bossY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%boss_img2%
+	ImageSearch greenX, greenY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/green.png
 	if (followX > 0) {
 		Click %followX%, %followY%
 	}
@@ -343,14 +353,18 @@ Goto MainScreen
 Restart:
 run_counter := 0
 FindImageAndClick("kill.png")
-FindImageAndClick("restart.png")
+Sleep 1000
+ImageSearch restartX, restartY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/restart.png
+if (restartX > 0) {
+	Click %restartX%, %restartY%
+}
 Sleep 30000
 
-^!h:: ; resume from nox home screen
+^!h:: ; resume from emulator home screen
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
 Loop 100{
-	ImageSearch installX, installY, 0, 0, WinWidth, WinHeight, *10 images/install.png
-	ImageSearch ffrkX, ffrkY, 0, 0, WinWidth, WinHeight, *10 images/ffrk.png
+	ImageSearch installX, installY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/install.png
+	ImageSearch ffrkX, ffrkY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ffrk.png
 	if (installX > 0) {
 		installX := installX + 300 ; this moves outside of the popup so it doesn't trigger it
 		Click %installX%, %installY%
@@ -367,32 +381,36 @@ return
 
 AcquireFriends:
 FindImageAndClick("home.png")
-FindImageAndCheck("following.png", "list.png", "friends.png", "menu.png")
+FindImageAndCheck("following.png", "list.png", "friends.png", "menu.png", "menu2.png")
 Loop 100 {
-	ImageSearch notX, notY, 0, 0, WinWidth, WinHeight, *50 images/not.png
+	ImageSearch notX, notY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/not.png
 	if (ErrorLevel = 0) {
 		break
 	}
 	Loop 10{
-		ImageSearch, followingX, followingY, 0, 0, WinWidth, WinHeight, *50 images/following.png
+		ImageSearch, followingX, followingY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/following.png
 		if (ErrorLevel = 0) {
-			Click 70, 400
+			frndX := frnd[1]
+			frndY := frnd[2]
+			Click %frndX%, %frndY%
 			Sleep 300
 			break
 		}
 		Sleep 100
 	}
 	Loop 10{
-		ImageSearch, unfollow_closeX, unfollow_closeY, 0, 0, WinWidth, WinHeight, *50 images/unfollow_close.png
+		ImageSearch, unfollow_closeX, unfollow_closeY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/unfollow_close.png
 		if (ErrorLevel = 0) {
-			Click 420, 770
+			unfolX := fol[1]
+			unfolY := fol[2]
+			Click %unfolX%, %unfolY%
 			Sleep 300
 			break
 		}
 		Sleep 100
 	}
 	Loop 10{
-		ImageSearch, unfollow2X, unfollow2Y, 0, 0, WinWidth, WinHeight, *50 images/unfollow2.png
+		ImageSearch, unfollow2X, unfollow2Y, 0, 0, WinWidth, WinHeight, *50 %img_dir%/unfollow2.png
 		if (ErrorLevel = 0) {
 			Click %unfollow2X%, %unfollow2Y%
 			Sleep 300
@@ -401,7 +419,7 @@ Loop 100 {
 		Sleep 100
 	}
 	Loop 10{
-		ImageSearch, unfollow_okX, unfollow_okY, 0, 0, WinWidth, WinHeight, *50 images/unfollow_ok.png
+		ImageSearch, unfollow_okX, unfollow_okY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/unfollow_ok.png
 		if (ErrorLevel = 0) {
 			Click %unfollow_okX%, %unfollow_okY%
 			Sleep 300
@@ -436,10 +454,12 @@ while (eof = 0) {
 	line_arr := StrSplit(line, ",")
 	friend_code := line_arr[1]
 	Loop 10{
-		ImageSearch, searchX, searchY, 0, 0, WinWidth, WinHeight, *50 images/search.png
-		ImageSearch, search2X, search2Y, 0, 0, WinWidth, WinHeight, *50 images/search2.png
+		ImageSearch, searchX, searchY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/search.png
+		ImageSearch, search2X, search2Y, 0, 0, WinWidth, WinHeight, *50 %img_dir%/search2.png
 		if (searchX > 0 or search2X > 0) {
-			Click 150, 450
+			frnd_idX := frnd_id[1]
+			frnd_idY := frnd_id[2]
+			Click %frnd_idX%, %frnd_idY%
 			Sleep 300
 			break
 		}
@@ -452,7 +472,7 @@ while (eof = 0) {
 	Send {enter}
 	Sleep 300
 	Loop 10{
-		ImageSearch, searchX, searchY, 0, 0, WinWidth, WinHeight, *50 images/search.png
+		ImageSearch, searchX, searchY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/search.png
 		if (ErrorLevel = 0) {
 			Click %searchX%, %searchY%
 			Sleep 300
@@ -461,13 +481,15 @@ while (eof = 0) {
 		Sleep 100
 	}
 	Loop 10{
-		ImageSearch, unfollowX, unfollowY, 0, 0, WinWidth, WinHeight, *50 images/unfollow.png
-		ImageSearch, search_closeX, search_closeY, 0, 0, WinWidth, WinHeight, *50 images/search_close.png
+		ImageSearch, unfollowX, unfollowY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/unfollow.png
+		ImageSearch, search_closeX, search_closeY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/unfollow_close.png
 		if (unfollowX > 0) {
 			break 2
 		}
 		if (search_closeX > 0) {
-			Click 420, 770
+			folX := fol[1]
+			folY := fol[2]
+			Click %folX%, %folY%
 			Sleep 300
 			break
 		}
@@ -477,6 +499,12 @@ while (eof = 0) {
 	eof := file.AtEOF
 }
 file.Close()
+ImageSearch, wifiX, wifiY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/wifi.png
+if (wifiX > 0) {
+	Click %wifiX%, %wifiY%
+	Sleep 1000
+	Click %wifiX%, %wifiY%
+}
 FindImageAndClick("home2.png")
 skip_friends := 1
 Goto HomeScreen
@@ -485,18 +513,21 @@ Goto HomeScreen
 ^!r::Reload  ; reload script
 
 ^!t:: ; Test
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *10 images/thiefs_revenge2.png
+WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
+img_dir := "images/mumu"
+img := "red_dragon2.png"
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%img%
 if (ErrorLevel = 0) {
-	MsgBox Found image at %FoundX%, %FoundY%
+	MsgBox Found image "%img%" at %FoundX%, %FoundY%
 }
 else {
 	a := [500, 600]
 	b := [700, 800]
-	c := [a, b]
-	d := 1
-	e := 2
-	x := c[d][d]
-	y := c[e][e]
-	MsgBox Could not find image %WinWidth%, %WinHeight%
+	c := [&a, &b]
+	for idx, val in c {
+		test := *val
+		test := test[1]
+	}
+	d := c[1]
+	MsgBox Image "%img%" not found. Window size is %WinWidth% x %WinHeight%
 }
-return
