@@ -1,5 +1,5 @@
-emulator = mumu ; which emulator are you using (nox and memu supported)
-boss = red_dragon ; name of the boss (current boss is red_dragon)
+emulator = mumu ; which emulator are you using (mumu, nox, and memu supported)
+boss = greg ; name of the boss (current boss is greg)
 
 use_rw = 1 ; should the game search for rw? 1-yes 0-no
 rw_name = pusb ; name of the rw (pusb, dvg, hmg, etc.)
@@ -10,8 +10,8 @@ restart_number = 50 ; how many runs should the game do before restarting nox
 
 characters = edge, gabranth, sephiroth, garland, tyro
 
-char_orders1 = ab1, ab1, ab2, ab2, ab2
-char_orders2 = rw, ab1, ab1, ab2, ab1, ab1, ab2
-char_orders3 = ab2, ab2, ab2, ab2, sb
-char_orders4 = sb, ab1, ab1, ab2, ab2
-char_orders5 = sb, ab1, ab2, ab1, ab2
+char_orders1 = ab1, ab2, ab2
+char_orders2 = ab1, ab1, ab1, sb, ab2, ab2, ab2
+char_orders3 = ab1, ab1, ab1, ab1, sb, ab2, ab2, ab2
+char_orders4 = ab1, ab1, sb, ab2, ab2
+char_orders5 = sb, rw, ab1, ab2, ab2, ab1, ab2, ab2

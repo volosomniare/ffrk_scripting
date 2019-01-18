@@ -278,6 +278,7 @@ Loop {
 	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/follow.png
 	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok.png
 	ImageSearch ok2X, ok2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok2.png
+	ImageSearch ok5X, ok5Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok5.png
 	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/close.png
 	ImageSearch bossX, bossY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%boss_img2%
 	ImageSearch greenX, greenY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/green.png
@@ -286,6 +287,9 @@ Loop {
 	}
 	if (okX > 0) {
 		Click %okX%, %okY%
+	}
+	if (okX > 0) {
+		Click %ok5X%, %ok5Y%
 	}
 	if (ok2X > 0) {
 		Click %ok2X%, %ok2Y%
