@@ -17,7 +17,13 @@ FindImageAndClick(images*) {
 	global WinWidth
 	global WinHeight
 	global img_dir
+	restart_counter := 0
 	Loop {
+		if (restart_counter >= 300) {
+			gosub Restart
+			break
+		}
+		
 		for idx, image in images {
 			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%image%
 			if (imgX > 0) {
@@ -27,6 +33,7 @@ FindImageAndClick(images*) {
 				}
 			}
 		}
+		restart_counter := restart_counter + 1
 		Sleep 1000
 	}
 }
@@ -35,7 +42,12 @@ FindImageAndCheck(images*) {
 	global WinWidth
 	global WinHeight
 	global img_dir
+	restart_counter := 0
 	Loop {
+		if (restart_counter >= 300) {
+			gosub Restart
+			break
+		}
 		for idx, image in images {
 			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%image%
 			if (imgX > 0) {
@@ -47,6 +59,7 @@ FindImageAndCheck(images*) {
 				}
 			}
 		}
+		restart_counter := restart_counter + 1
 		Sleep 1000
 	}
 }
@@ -103,8 +116,8 @@ while (eof = 0) {
 		rw_preloaded := line_arr[2]
 	}
 	
-	if (line_arr[1] = "restart_nox") {
-		restart_nox := line_arr[2]
+	if (line_arr[1] = "restart_emulator") {
+		restart_emulator := line_arr[2]
 	}
 	
 	if (line_arr[1] = "restart_number") {
@@ -167,7 +180,7 @@ frnd_id := (emulator = "memu") ? [150, 420] : [150, 450]
 
 ^!s:: ; Start from the main screen (dungeon difficulty select screen)
 MainScreen:
-if (run_counter > restart_number and restart_nox = 1) {
+if (run_counter > restart_number and restart_emulator = 1) {
 	Goto Restart
 }
 
@@ -178,7 +191,7 @@ if (Mod(total_run_counter, 100) = 0 and use_rw = 1 and skip_friends = 0) {
 }
 skip_friends := 0
 
-FindImageAndCheck("refresh.png", "next.png", "solo.png", "enter.png", boss_img2)
+FindImageAndCheck("refresh.png", "next.png", "solo.png", "enter.png", "close.png", boss_img2)
 
 RoamingWarriorScreen:
 Loop {
@@ -241,6 +254,7 @@ for idx, char in characters {
 	char_counter[char] := 0
 }
 last_char := ""
+last_char_counter := 0
 Loop {
 	for idx, char in characters {
 		char_img := "characters/" . char . ".png"
@@ -249,7 +263,15 @@ Loop {
 			max_idx := char_orders[char].MaxIndex()
 			if (last_char <> char) ; prevents dropped input
 			{
+				last_char_counter := 0
 				char_counter[char] := Mod(char_counter[char], max_idx) + 1
+			}
+			else {
+				last_char_counter := last_char_counter + 1
+				if (last_char_counter > 5) {
+					last_char_counter := 0
+					char_counter[char] := Mod(char_counter[char], max_idx) + 1
+				}
 			}
 			move_name := char_orders[char][char_counter[char]]
 			move := %move_name%
@@ -272,7 +294,11 @@ Loop {
 }
 
 ResultScreen:
+result_counter := 0
 Loop {
+	if (result_counter > 100) {
+		Goto Restart
+	}
 	Click %nextX%, %nextY%
 	Sleep 1000
 	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/follow.png
@@ -326,6 +352,7 @@ Loop {
 		file.Close()
 		Goto MainScreen
 	}
+	result_counter := result_counter + 1
 }
 
 FailureScreen:
@@ -348,7 +375,7 @@ StartScreen:
 FindImageAndClick("play.png")
 
 HomeScreen:
-FindImageAndClick("event.png", "ok3.png", "ok4.png", "close2.png")
+FindImageAndClick("event.png", "ok3.png", "ok4.png", "ok6.png", "close2.png", "back2.png")
 FindImageAndClick("raid.png")
 FindImageAndClick(boss_img1)
 Sleep 3000
@@ -356,13 +383,16 @@ Goto MainScreen
 
 Restart:
 run_counter := 0
-FindImageAndClick("kill.png")
+ImageSearch killX, killY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/kill.png
+if (killX > 0) {
+	Click %killX%, %killY%
+}
 Sleep 1000
 ImageSearch restartX, restartY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/restart.png
 if (restartX > 0) {
 	Click %restartX%, %restartY%
 }
-Sleep 30000
+Sleep 10000
 
 ^!h:: ; resume from emulator home screen
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY

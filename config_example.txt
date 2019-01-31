@@ -1,17 +1,17 @@
 emulator = mumu ; which emulator are you using (mumu, nox, and memu supported)
-boss = greg ; name of the boss (current boss is greg)
+boss = ghouls ; name of the boss (current boss is greg)
 
-use_rw = 1 ; should the game search for rw? 1-yes 0-no
-rw_name = pusb ; name of the rw (pusb, dvg, hmg, etc.)
+use_rw = 0 ; should the game search for rw? 1-yes 0-no
+rw_name = musb ; name of the rw (musb, pusb, dvg, hmg, etc.)
 rw_preloaded = 0 ; have you filled your friends list with the rw? 1-yes 0-no
 
-restart_nox = 1 ; should the game restart nox after doing a certain number of runs? 1-yes 0-no
+restart_emulator = 1 ; should the game restart emulator after doing a certain number of runs? 1-yes 0-no
 restart_number = 50 ; how many runs should the game do before restarting nox
 
-characters = edge, gabranth, sephiroth, garland, tyro
+characters = braska, papalymo, rydia, terra, alphinaud
 
-char_orders1 = ab1, ab2, ab2
-char_orders2 = ab1, ab1, ab1, sb, ab2, ab2, ab2
-char_orders3 = ab1, ab1, ab1, ab1, sb, ab2, ab2, ab2
-char_orders4 = ab1, ab1, sb, ab2, ab2
-char_orders5 = sb, rw, ab1, ab2, ab2, ab1, ab2, ab2
+char_orders1 = ab1
+char_orders2 = sb, ab1, ab1, ab1, ab1
+char_orders3 = ab1
+char_orders4 = ab1
+char_orders5 = sb, ab1, ab1, ab1, ab1
