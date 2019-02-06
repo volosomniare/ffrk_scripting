@@ -191,7 +191,7 @@ if (Mod(total_run_counter, 100) = 0 and use_rw = 1 and skip_friends = 0) {
 }
 skip_friends := 0
 
-FindImageAndCheck("refresh.png", "next.png", "solo.png", "enter.png", "close.png", boss_img2)
+FindImageAndCheck("refresh.png", "next.png", "next4.png", "solo.png", "enter.png", "close.png", boss_img2)
 
 RoamingWarriorScreen:
 Loop {
