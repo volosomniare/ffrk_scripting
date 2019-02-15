@@ -25,7 +25,7 @@ FindImageAndClick(images*) {
 		}
 		
 		for idx, image in images {
-			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%image%
+			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%image%
 			if (imgX > 0) {
 				Click %imgX%, %imgY%
 				if (idx = 1) {
@@ -49,7 +49,7 @@ FindImageAndCheck(images*) {
 			break
 		}
 		for idx, image in images {
-			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%image%
+			ImageSearch imgX, imgY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%image%
 			if (imgX > 0) {
 				if (idx = 1) {
 					break 2
@@ -195,14 +195,14 @@ FindImageAndCheck("refresh.png", "next.png", "next4.png", "solo.png", "enter.png
 
 RoamingWarriorScreen:
 Loop {
-	ImageSearch, rw1X, rw1Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%rw_img1%
-	ImageSearch, rw2X, rw2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%rw_img2%
-	ImageSearch, rw3X, rw3Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%rw_img3%
+	ImageSearch, rw1X, rw1Y, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%rw_img1%
+	ImageSearch, rw2X, rw2Y, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%rw_img2%
+	ImageSearch, rw3X, rw3Y, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%rw_img3%
 	
-	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/refresh.png
-	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/go.png
+	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/refresh.png
+	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/go.png
 	
-	ImageSearch, StaminaX, StaminaY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/stamina.png
+	ImageSearch, StaminaX, StaminaY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/stamina.png
 	if (StaminaX > 0) {
 		break
 	}
@@ -258,7 +258,7 @@ last_char_counter := 0
 Loop {
 	for idx, char in characters {
 		char_img := "characters/" . char . ".png"
-		ImageSearch, charX, charY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%char_img%
+		ImageSearch, charX, charY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%char_img%
 		if (charX > 0) {
 			max_idx := char_orders[char].MaxIndex()
 			if (last_char <> char) ; prevents dropped input
@@ -283,11 +283,11 @@ Loop {
 		}	
 	}
 	Sleep 200
-	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/next2.png
+	ImageSearch, nextX, nextY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/next2.png
 	if (ErrorLevel = 0) {
 		break
 	}
-	ImageSearch, quitX, quitY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/quit.png
+	ImageSearch, quitX, quitY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/quit.png
 	if (ErrorLevel = 0) {
 		Goto FailureScreen
 	}
@@ -301,13 +301,13 @@ Loop {
 	}
 	Click %nextX%, %nextY%
 	Sleep 1000
-	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/follow.png
-	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok.png
-	ImageSearch ok2X, ok2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok2.png
-	ImageSearch ok5X, ok5Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok5.png
-	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/close.png
-	ImageSearch bossX, bossY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%boss_img2%
-	ImageSearch greenX, greenY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/green.png
+	ImageSearch followX, followY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/follow.png
+	ImageSearch okX, okY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/ok.png
+	ImageSearch ok2X, ok2Y, 0, 0, WinWidth, WinHeight, *50 %img_dir%/ok2.png
+	ImageSearch ok5X, ok5Y, 0, 0, WinWidth, WinHeight, *50 %img_dir%/ok5.png
+	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/close.png
+	ImageSearch bossX, bossY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%boss_img2%
+	ImageSearch greenX, greenY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/green.png
 	if (followX > 0) {
 		Click %followX%, %followY%
 	}
@@ -383,12 +383,12 @@ Goto MainScreen
 
 Restart:
 run_counter := 0
-ImageSearch killX, killY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/kill.png
+ImageSearch killX, killY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/kill.png
 if (killX > 0) {
 	Click %killX%, %killY%
 }
 Sleep 1000
-ImageSearch restartX, restartY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/restart.png
+ImageSearch restartX, restartY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/restart.png
 if (restartX > 0) {
 	Click %restartX%, %restartY%
 }
@@ -397,8 +397,8 @@ Sleep 10000
 ^!h:: ; resume from emulator home screen
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
 Loop 100{
-	ImageSearch installX, installY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/install.png
-	ImageSearch ffrkX, ffrkY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ffrk.png
+	ImageSearch installX, installY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/install.png
+	ImageSearch ffrkX, ffrkY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/ffrk.png
 	if (installX > 0) {
 		installX := installX + 300 ; this moves outside of the popup so it doesn't trigger it
 		Click %installX%, %installY%
@@ -549,8 +549,8 @@ Goto HomeScreen
 ^!t:: ; Test
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
 img_dir := "images/mumu"
-img := "red_dragon2.png"
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%img%
+img := "home.png"
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%img%
 if (ErrorLevel = 0) {
 	MsgBox Found image "%img%" at %FoundX%, %FoundY%
 }

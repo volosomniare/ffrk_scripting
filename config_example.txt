@@ -1,5 +1,5 @@
 emulator = mumu ; which emulator are you using (mumu, nox, and memu supported)
-boss = ghouls ; name of the boss (current boss is greg)
+boss = sacred_minotaur ; name of the boss (current boss is greg)
 
 use_rw = 0 ; should the game search for rw? 1-yes 0-no
 rw_name = musb ; name of the rw (musb, pusb, dvg, hmg, etc.)
