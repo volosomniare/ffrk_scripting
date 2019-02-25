@@ -242,11 +242,9 @@ Loop {
 	Sleep 1000
 }
 
+^!b::
 BattleMap:
-FindImageAndClick("begin.png", "stamina.png")
-
-CancelAuto:
-FindImageAndCheck("auto.png", "cancel.png")
+FindImageAndCheck("auto.png", "cancel.png", "begin2.png", "begin.png", "stamina.png")
 
 ^!m::
 MoveCharacter:
@@ -373,9 +371,16 @@ Goto MainScreen
 
 StartScreen:
 FindImageAndClick("play.png")
+Sleep 5000
+
+ImageSearch cancelX, cancelY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/cancel2.png
+if (cancelX > 0) {
+	Click %cancelX%, %cancelY%
+	Goto BattleMap
+}
 
 HomeScreen:
-FindImageAndClick("event.png", "ok3.png", "ok4.png", "ok6.png", "close2.png", "back2.png")
+FindImageAndClick("event.png", "ok3.png", "ok4.png", "close2.png", "back2.png")
 FindImageAndClick("raid.png")
 FindImageAndClick(boss_img1)
 Sleep 3000
@@ -549,7 +554,7 @@ Goto HomeScreen
 ^!t:: ; Test
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
 img_dir := "images/mumu"
-img := "home.png"
+img := "play2.png"
 ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *50 %img_dir%/%img%
 if (ErrorLevel = 0) {
 	MsgBox Found image "%img%" at %FoundX%, %FoundY%
