@@ -1,9 +1,11 @@
 emulator = mumu ; which emulator are you using (mumu, nox, and memu supported)
-boss = sacred_minotaur ; name of the boss (current boss is greg)
+realm = ff4 ; which realm is the dungeon
+dungeon = fabul_castle ; what is the name of the dungeon
+auto_battle = 1 ; do you want to auto battle? 1-yes 0-no
+complete_dungeon = 0 ; do you want to finish the dungeon (no would repeat the first battle)? 1-yes 0-no
 
 use_rw = 0 ; should the game search for rw? 1-yes 0-no
 rw_name = musb ; name of the rw (musb, pusb, dvg, hmg, etc.)
-rw_preloaded = 0 ; have you filled your friends list with the rw? 1-yes 0-no
 
 restart_emulator = 1 ; should the game restart emulator after doing a certain number of runs? 1-yes 0-no
 restart_number = 50 ; how many runs should the game do before restarting

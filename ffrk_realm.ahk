@@ -8,7 +8,7 @@ total_run_counter := 0
 total_run_counter_pos := 0
 green_counter := 0
 green_counter_pos := 0
-skip_friends := 0
+battle_num := 1
 
 char_orders := {}
 img_dir := "images"
@@ -64,7 +64,7 @@ FindImageAndCheck(images*) {
 	}
 }
 
-file_name := "config.txt"
+file_name := "config_realm.txt"
 file := FileOpen(file_name, "rw `n")
 if !IsObject(file)
 {
@@ -91,11 +91,27 @@ while (eof = 0) {
 		}
 	}
 	
-	if (line_arr[1] = "boss") {
-		boss := line_arr[2]
-		boss_img1 := boss . "1.png"
-		boss_img2 := boss . "2.png"
+	if (line_arr[1] = "realm") {
+		realm := line_arr[2]
+		realm_img := realm . ".png"
 	}
+
+    if (line_arr[1] = "dungeon") {
+		dungeon := line_arr[2]
+		dungeon_img := dungeon . ".png"
+        dungeon_img0 := dungeon . "0.png"
+        dungeon_img1 := dungeon . "1.png"
+        dungeon_img2 := dungeon . "2.png"
+        dungeon_img3 := dungeon . "3.png"
+	}
+
+    if (line_arr[1] = "auto_battle") {
+        auto_battle := line_arr[2]
+    }
+
+    if (line_arr[1] = "complete_dungeon") {
+        complete_dungeon := line_arr[2]
+    }
 	
 	if (line_arr[1] = "use_rw") {
 		use_rw := line_arr[2]
@@ -106,16 +122,6 @@ while (eof = 0) {
 		rw_img1 := rw_name . "1.png"
 		rw_img2 := rw_name . "2.png"
 		rw_img3 := rw_name . "3.png"
-		rw_file1 := rw_name . "1.csv"
-		rw_file2 := rw_name . "2.csv"
-		rw_file3 := rw_name . "3.csv"
-		rw_file4 := rw_name . "4.csv"
-		rw_file5 := rw_name . "5.csv"
-		rw_file6 := rw_name . "6.csv"
-	}
-	
-	if (line_arr[1] = "rw_preloaded") {
-		rw_preloaded := line_arr[2]
 	}
 	
 	if (line_arr[1] = "restart_emulator") {
@@ -186,14 +192,21 @@ if (run_counter > restart_number and restart_emulator = 1) {
 	Goto Restart
 }
 
-if (Mod(total_run_counter, 100) = 0 and use_rw = 1 and skip_friends = 0) {
-	if (total_run_counter > 0 or rw_preloaded = 0) {
-		Goto AcquireFriends
-	}
+Loop {
+    ImageSearch, dungeonX, dungeonY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%dungeon_img%
+    if (dungeonX > 0) {
+        Click %dungeonX%, %dungeonY%
+        break
+    }
+    MouseMove 300, 700
+    MouseClickDrag, Left, 0, 0, 0, -500, 20 , R
+    Sleep 1000
 }
-skip_friends := 0
+battle_num := 1
+battle_img_name := "dungeon_img" . battle_num
+battle_img := %battle_img_name%
 
-FindImageAndCheck("refresh.png", "next.png", "next4.png", "solo.png", "enter.png", "close.png", boss_img2)
+FindImageAndCheck("roaming_warrior.png", "next.png", "next4.png", "solo.png", "enter.png", "close.png")
 
 RoamingWarriorScreen:
 Loop {
@@ -201,11 +214,10 @@ Loop {
 	ImageSearch, rw2X, rw2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%rw_img2%
 	ImageSearch, rw3X, rw3Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%rw_img3%
 	
-	ImageSearch, refreshX, refreshY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/refresh.png
 	ImageSearch, goX, goY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/go.png
 	
-	ImageSearch, StaminaX, StaminaY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/stamina.png
-	if (StaminaX > 0) {
+	ImageSearch, BattleX, BattleY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%battle_img%
+	if (BattleX > 0) {
 		break
 	}
 	else if (rw1X > 0 and use_rw = 1) {
@@ -236,17 +248,17 @@ Loop {
 			Click %goX%, %goY%
 		}
 	}
-	else {
-		if (refreshX > 0) {
-			Click %refreshX%, %refreshY%
-		}
-	}
 	Sleep 1000
 }
 
 ^!b::
 BattleMap:
-FindImageAndCheck("auto.png", "cancel.png", "begin2.png", "begin.png", "stamina.png", "potion.png", "yes2.png", "ok7.png")
+if (auto_battle > 0) {
+    FindImageAndCheck("cancel.png", "auto.png", "begin2.png", "begin.png", battle_img, "potion.png", "yes2.png", "ok7.png")
+}
+else {
+    FindImageAndCheck("auto.png", "cancel.png", "begin2.png", "begin.png", battle_img, "potion.png", "yes2.png", "ok7.png")
+}
 
 ^!m::
 MoveCharacter:
@@ -306,8 +318,8 @@ Loop {
 	ImageSearch ok2X, ok2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok2.png
 	ImageSearch ok5X, ok5Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/ok5.png
 	ImageSearch closeX, closeY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/close.png
-	ImageSearch bossX, bossY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%boss_img2%
-	ImageSearch greenX, greenY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/green.png
+    ImageSearch campX, campY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/camp.png
+	ImageSearch eliteX, eliteY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/elite.png
 	if (followX > 0) {
 		Click %followX%, %followY%
 	}
@@ -332,16 +344,18 @@ Loop {
 	if (closeX > 0) {
 		Click %closeX%, %closeY%
 	}
-	if (greenX > 0) {
-		green_counter := green_counter + 1
-		file_name := "config.txt"
-		file := FileOpen(file_name, "rw `n")
-		file.Seek(green_counter_pos)
-		line := "green_counter = " . green_counter
-		file.WriteLine(line)
-		file.Close()
-	}
-	if (bossX > 0) {
+    if (campX > 0) {
+        if (complete_dungeon > 0) {
+            battle_num := battle_num + 1
+        }
+        else {
+            battle_num := 0
+        }
+        battle_img_name := "dungeon_img" . battle_num
+        battle_img := %battle_img_name%
+        Goto BattleMap
+    }
+	if (eliteX > 0) {
 		run_counter := run_counter + 1
 		total_run_counter := total_run_counter + 1
 		file_name := "config.txt"
@@ -382,9 +396,9 @@ if (cancelX > 0) {
 }
 
 HomeScreen:
-FindImageAndClick("event.png", "ok3.png", "ok4.png", "close2.png", "back2.png")
-FindImageAndClick("raid.png")
-FindImageAndClick(boss_img1)
+FindImageAndClick("realm.png", "ok3.png", "ok4.png", "close2.png", "back2.png")
+FindImageAndClick(realm_img)
+FindImageAndClick("realm_door.png")
 Sleep 3000
 Goto MainScreen
 
@@ -420,161 +434,27 @@ Loop 100{
 }
 return
 
-AcquireFriends:
-FindImageAndClick("home.png")
-FindImageAndCheck("following.png", "list.png", "friends.png", "menu.png", "menu2.png")
-Loop 100 {
-	ImageSearch notX, notY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/not.png
-	if (ErrorLevel = 0) {
-		break
-	}
-	Loop 10{
-		ImageSearch, followingX, followingY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/following.png
-		if (ErrorLevel = 0) {
-			frndX := frnd[1]
-			frndY := frnd[2]
-			Click %frndX%, %frndY%
-			Sleep 300
-			break
-		}
-		Sleep 100
-	}
-	Loop 10{
-		ImageSearch, unfollow_closeX, unfollow_closeY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/unfollow_close.png
-		if (ErrorLevel = 0) {
-			unfolX := fol[1]
-			unfolY := fol[2]
-			Click %unfolX%, %unfolY%
-			Sleep 300
-			break
-		}
-		Sleep 100
-	}
-	Loop 10{
-		ImageSearch, unfollow2X, unfollow2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/unfollow2.png
-		if (ErrorLevel = 0) {
-			Click %unfollow2X%, %unfollow2Y%
-			Sleep 300
-			break
-		}
-		Sleep 100
-	}
-	Loop 10{
-		ImageSearch, unfollow_okX, unfollow_okY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/unfollow_ok.png
-		if (ErrorLevel = 0) {
-			Click %unfollow_okX%, %unfollow_okY%
-			Sleep 300
-			break
-		}
-		Sleep 100
-	}
-}
-FindImageAndClick("back.png")
-FindImageAndCheck("search2.png", "find.png")
-if (Mod(total_run_counter, 600) = 0) {
-	file_name := "roaming_warriors/" . rw_file1
-}
-if (Mod(total_run_counter, 600) = 100) {
-	file_name := "roaming_warriors/" . rw_file2
-}
-if (Mod(total_run_counter, 600) = 200) {
-	file_name := "roaming_warriors/" . rw_file3
-}
-if (Mod(total_run_counter, 600) = 300) {
-	file_name := "roaming_warriors/" . rw_file4
-}
-if (Mod(total_run_counter, 600) = 400) {
-	file_name := "roaming_warriors/" . rw_file5
-}
-if (Mod(total_run_counter, 600) = 500) {
-	file_name := "roaming_warriors/" . rw_file6
-}
-file := FileOpen(file_name, "r")
-if !IsObject(file)
-{
-	MsgBox Can't open "%file_name%" for reading.
-	return
-}
-eof := 0
-while (eof = 0) {
-	line := file.ReadLine()
-	line_arr := StrSplit(line, ",")
-	friend_code := line_arr[1]
-	Loop 10{
-		ImageSearch, searchX, searchY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/search.png
-		ImageSearch, search2X, search2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/search2.png
-		if (searchX > 0 or search2X > 0) {
-			frnd_idX := frnd_id[1]
-			frnd_idY := frnd_id[2]
-			Click %frnd_idX%, %frnd_idY%
-			Sleep 300
-			break
-		}
-		Sleep 100
-	}
-	Send {BS}{BS}{BS}{BS}
-	Sleep 300
-	Send %friend_code%
-	Sleep 300
-	Send {enter}
-	Sleep 300
-	Loop 10{
-		ImageSearch, searchX, searchY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/search.png
-		if (ErrorLevel = 0) {
-			Click %searchX%, %searchY%
-			Sleep 300
-			break
-		}
-		Sleep 100
-	}
-	Loop 10{
-		ImageSearch, unfollowX, unfollowY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/unfollow.png
-		ImageSearch, search_closeX, search_closeY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/unfollow_close.png
-		if (unfollowX > 0) {
-			break 2
-		}
-		if (search_closeX > 0) {
-			folX := fol[1]
-			folY := fol[2]
-			Click %folX%, %folY%
-			Sleep 300
-			break
-		}
-		Sleep 100
-	}
-	Sleep 300
-	eof := file.AtEOF
-}
-file.Close()
-ImageSearch, wifiX, wifiY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/wifi.png
-if (wifiX > 0) {
-	Click %wifiX%, %wifiY%
-	Sleep 1000
-	Click %wifiX%, %wifiY%
-}
-FindImageAndClick("home2.png", "close3.png")
-skip_friends := 1
-Goto HomeScreen
-
 ^!p::pause ; pause script
 ^!r::Reload  ; reload script
 
 ^!t:: ; Test
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
-img_dir := "images/mumu"
-img := "close3.png"
-ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%img%
-if (ErrorLevel = 0) {
-	MsgBox Found image "%img%" at %FoundX%, %FoundY%
-}
-else {
-	a := [500, 600]
-	b := [700, 800]
-	c := [&a, &b]
-	for idx, val in c {
-		test := *val
-		test := test[1]
-	}
-	d := c[1]
-	MsgBox Image "%img%" not found. Window size is %WinWidth% x %WinHeight%
-}
+MouseMove 300, 700
+MouseClickDrag, Left, 0, 0, 0, -500, 20 , R
+; img_dir := "images/mumu"
+; img := "close3.png"
+; ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%img%
+; if (ErrorLevel = 0) {
+; 	MsgBox Found image "%img%" at %FoundX%, %FoundY%
+; }
+; else {
+; 	a := [500, 600]
+; 	b := [700, 800]
+; 	c := [&a, &b]
+; 	for idx, val in c {
+; 		test := *val
+; 		test := test[1]
+; 	}
+; 	d := c[1]
+; 	MsgBox Image "%img%" not found. Window size is %WinWidth% x %WinHeight%
+; }
