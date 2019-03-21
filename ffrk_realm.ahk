@@ -176,7 +176,7 @@ frnd_id := (emulator = "memu") ? [150, 420] : [150, 450]
 
 ^!s:: ; Start from the main screen (dungeon difficulty select screen)
 MainScreen:
-if (run_counter > restart_number and restart_emulator = 1) {
+if (run_counter >= restart_number and restart_emulator = 1) {
 	Goto Restart
 }
 
@@ -231,7 +231,7 @@ Loop {
 
 ^!b::
 BattleMap:
-if (run_counter > restart_number and restart_emulator = 1) {
+if (run_counter >= restart_number and restart_emulator = 1) {
 	Goto Restart
 }
 
@@ -315,7 +315,7 @@ Loop {
 		Click %ok2X%, %ok2Y%
 		run_counter := run_counter + 1
 		total_run_counter := total_run_counter + 1
-		file_name := "config.txt"
+		file_name := "config_realm.txt"
 		file := FileOpen(file_name, "rw `n")
 		file.Seek(total_run_counter_pos)
 		line := "total_run_counter = " . total_run_counter
@@ -329,7 +329,7 @@ Loop {
     if (campX > 0) {
         run_counter := run_counter + 1
 		total_run_counter := total_run_counter + 1
-		file_name := "config.txt"
+		file_name := "config_realm.txt"
 		file := FileOpen(file_name, "rw `n")
 		file.Seek(total_run_counter_pos)
 		line := "total_run_counter = " . total_run_counter
@@ -348,7 +348,7 @@ Loop {
 	if (eliteX > 0) {
 		run_counter := run_counter + 1
 		total_run_counter := total_run_counter + 1
-		file_name := "config.txt"
+		file_name := "config_realm.txt"
 		file := FileOpen(file_name, "rw `n")
 		file.Seek(total_run_counter_pos)
 		line := "total_run_counter = " . total_run_counter
@@ -367,7 +367,7 @@ ResultScreen2:
 FindImageAndCheck(boss_img2, "next3.png", "follow.png", "ok.png")
 run_counter := run_counter + 1
 total_run_counter := total_run_counter + 1
-file_name := "config.txt"
+file_name := "config_realm.txt"
 file := FileOpen(file_name, "rw `n")
 file.Seek(total_run_counter_pos)
 line := "total_run_counter = " . total_run_counter
@@ -386,11 +386,9 @@ if (cancelX > 0) {
 }
 
 HomeScreen:
-FindImageAndClick("realm.png", "ok3.png", "ok4.png", "close2.png", "back2.png")
-FindImageAndClick(realm_img)
-FindImageAndClick("realm_door.png")
+FindImageAndCheck("camp.png", realm_img, "realm.png", "ok3.png", "ok4.png", "close2.png", "back2.png")
 Sleep 3000
-Goto MainScreen
+Goto BattleMap
 
 Restart:
 run_counter := 0

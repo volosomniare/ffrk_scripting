@@ -182,7 +182,7 @@ frnd_id := (emulator = "memu") ? [150, 420] : [150, 450]
 
 ^!s:: ; Start from the main screen (dungeon difficulty select screen)
 MainScreen:
-if (run_counter > restart_number and restart_emulator = 1) {
+if (run_counter >= restart_number and restart_emulator = 1) {
 	Goto Restart
 }
 
