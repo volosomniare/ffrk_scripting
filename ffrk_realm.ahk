@@ -6,8 +6,6 @@ char_counter := {}
 run_counter := 0
 total_run_counter := 0
 total_run_counter_pos := 0
-green_counter := 0
-green_counter_pos := 0
 battle_num := 1
 
 char_orders := {}
@@ -148,22 +146,12 @@ while (eof = 0) {
 		total_run_counter_pos := pos
 	}
 	
-	if (line_arr[1] = "green_counter") {
-		green_counter := line_arr[2]
-		green_counter_pos := pos
-	}
-	
 	eof := file.AtEOF
 }
 
 if (total_run_counter_pos = 0) {
 	total_run_counter_pos := file.Position
 	file.WriteLine("total_run_counter = 0")
-}
-
-if (green_counter_pos = 0) {
-	green_counter_pos := file.Position
-	file.WriteLine("green_counter = 0")
 }
 
 file.Close()
@@ -192,21 +180,11 @@ if (run_counter > restart_number and restart_emulator = 1) {
 	Goto Restart
 }
 
-Loop {
-    ImageSearch, dungeonX, dungeonY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%dungeon_img%
-    if (dungeonX > 0) {
-        Click %dungeonX%, %dungeonY%
-        break
-    }
-    MouseMove 300, 700
-    MouseClickDrag, Left, 0, 0, 0, -500, 20 , R
-    Sleep 1000
-}
 battle_num := 1
 battle_img_name := "dungeon_img" . battle_num
 battle_img := %battle_img_name%
 
-FindImageAndCheck("roaming_warrior.png", "next.png", "next4.png", "solo.png", "enter.png", "close.png")
+FindImageAndCheck("roaming_warrior.png", "next.png", "next4.png", "solo.png", "enter.png", "close.png", dungeon_img)
 
 RoamingWarriorScreen:
 Loop {
@@ -253,6 +231,10 @@ Loop {
 
 ^!b::
 BattleMap:
+if (run_counter > restart_number and restart_emulator = 1) {
+	Goto Restart
+}
+
 if (auto_battle > 0) {
     FindImageAndCheck("cancel.png", "auto.png", "begin2.png", "begin.png", battle_img, "potion.png", "yes2.png", "ok7.png")
 }
@@ -345,6 +327,14 @@ Loop {
 		Click %closeX%, %closeY%
 	}
     if (campX > 0) {
+        run_counter := run_counter + 1
+		total_run_counter := total_run_counter + 1
+		file_name := "config.txt"
+		file := FileOpen(file_name, "rw `n")
+		file.Seek(total_run_counter_pos)
+		line := "total_run_counter = " . total_run_counter
+		file.WriteLine(line)
+		file.Close()
         if (complete_dungeon > 0) {
             battle_num := battle_num + 1
         }
@@ -440,21 +430,22 @@ return
 ^!t:: ; Test
 WinGetActiveStats, Title, WinWidth, WinHeight, WinX, WinY
 MouseMove 300, 700
-MouseClickDrag, Left, 0, 0, 0, -500, 20 , R
-; img_dir := "images/mumu"
-; img := "close3.png"
-; ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%img%
-; if (ErrorLevel = 0) {
-; 	MsgBox Found image "%img%" at %FoundX%, %FoundY%
-; }
-; else {
-; 	a := [500, 600]
-; 	b := [700, 800]
-; 	c := [&a, &b]
-; 	for idx, val in c {
-; 		test := *val
-; 		test := test[1]
-; 	}
-; 	d := c[1]
-; 	MsgBox Image "%img%" not found. Window size is %WinWidth% x %WinHeight%
-; }
+MouseClickDrag, Left, 0, 0, 0, -500, 20, R
+Sleep 2000
+img_dir := "images/mumu"
+img := "fabul_castle.png"
+ImageSearch, FoundX, FoundY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/%img%
+if (ErrorLevel = 0) {
+	MsgBox Found image "%img%" at %FoundX%, %FoundY%
+}
+else {
+	a := [500, 600]
+	b := [700, 800]
+	c := [&a, &b]
+	for idx, val in c {
+		test := *val
+		test := test[1]
+	}
+	d := c[1]
+	MsgBox Image "%img%" not found. Window size is %WinWidth% x %WinHeight%
+}
