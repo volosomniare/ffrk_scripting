@@ -3,10 +3,10 @@
 The purpose of these scripts is to autoplay certain battles in Final Fantasy Record Keeper on an emulator.
 
 ## Prerequistes
-MuMu App Player (http://mumu.163.com/global/download/en/)
-FFRK installed and working on MuMu
-AutoHotkey (https://www.autohotkey.com)
-A strong and consistent team that can beat the battle you intend to repeat (this script can't substitute for bad teambuilding)
+* MuMu App Player (http://mumu.163.com/global/download/en/)
+* FFRK installed and working on MuMu
+* AutoHotkey (https://www.autohotkey.com)
+* A strong and consistent team that can beat the battle you intend to repeat (this script can't substitute for bad teambuilding)
 
 ## Instructions
 1. Open `config_example.txt` with a text editor of your choice (such as notepad).
@@ -27,6 +27,7 @@ Each of these lines can be customized for your specific needs. Below are some of
 5. Press Ctr-Alt-C and the script will start running
 
 ## Appendix/Updates
-`ffrk_realm.ahk` was added for repeating certain realm dungeons.
-to use that script, you must edit `config_realm_example.txt` instead and save it as `config_realm.txt` (there are additional options with comments detailing what they do in the example file)
-Currently the only realm dungeon repeatable is fabul castle. In order for the script to work, you must first clear fabul castle once, since the game will display the last dungeon completed at the top of the dungeon select. Then press Ctr-Alt-C at the dungeon select and the script should work.
+* `ffrk_realm.ahk` was added for repeating certain realm dungeons.
+* To use that script, you must edit `config_realm_example.txt` instead and save it as `config_realm.txt` (there are additional options with comments detailing what they do in the example file).
+* Currently the only realm dungeon repeatable is fabul castle. 
+* In order for the script to work, you must first clear fabul castle once, since the game will display the last dungeon completed at the top of the dungeon select. Then press Ctr-Alt-C at the dungeon select and the script should work.
