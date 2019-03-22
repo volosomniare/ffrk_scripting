@@ -27,7 +27,11 @@ Each of these lines can be customized for your specific needs. Below are some of
 5. Press Ctr-Alt-C and the script will start running
 
 ## Appendix/Updates
+### 2019/03/20
 * `ffrk_realm.ahk` was added for repeating certain realm dungeons.
 * To use that script, you must edit `config_realm_example.txt` instead and save it as `config_realm.txt` (there are additional options with comments detailing what they do in the example file).
 * Currently the only realm dungeon repeatable is fabul castle. 
 * In order for the script to work, you must first clear fabul castle once, since the game will display the last dungeon completed at the top of the dungeon select. Then press Ctr-Alt-C at the dungeon select and the script should work.
+### 2019/03/10
+* friend code scraper for generating the roaming warrior lists created. For more details go to https://github.com/volosomniare/ffrk_friendcode_scraper
+
