@@ -14,7 +14,7 @@ Each of these lines can be customized for your specific needs. Below are some of
 
 * `boss` refers to which raid boss you wish to tackle. The name is completely lowercased and if made up of two or more words, the words are separated by an underscore such as `red_dragon`
 * `use_rw` refers to whether you wish to make use of a specific roaming warrior soul break during your battle. `1` means yes, `0` means no.
-* `rw_name` refers to the name of the roaming warrior soul break you wish to use (ignore if you set the previous setting to `0`). Currently supporting Onion Knight pUSB (`pusb`), Tyro's Divine Veil Grimoire (`dvg`), and Terra's ASB (`terra_asb`), contact me by writing an issue here if you want support for more.
+* `rw_name` refers to the name of the roaming warrior soul break you wish to use (ignore if you set the previous setting to `0`). Currently supporting Onion Knight pUSB (`pusb`), Tyro's Divine Veil Grimoire (`dvg`), Terra's ASB (`terra_asb`), and Sora's AASB (`sora_aasb`). Contact me by writing an issue here if you want support for more.
 * `characters` refers to the names of the characters of your team, separated by commas. (remove special characters from names e.g. `y'shtola` should be `yshtola`)
 
 * `char_orders` are the commands you want the characters to make in the game.

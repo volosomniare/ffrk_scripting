@@ -1,17 +1,16 @@
-emulator = mumu ; which emulator are you using (mumu, nox, and memu supported)
-boss = sacred_minotaur ; name of the boss (current boss is greg)
+emulator = mumu ; which emulator are you using (only mumu currently supported)
+boss = carbuncle ; name of the boss (most current boss is carbuncle)
 
-use_rw = 0 ; should the game search for rw? 1-yes 0-no
-rw_name = musb ; name of the rw (musb, pusb, dvg, hmg, etc.)
-rw_preloaded = 0 ; have you filled your friends list with the rw? 1-yes 0-no
+use_rw = 1 ; should the game search for rw? 1-yes 0-no
+rw_name = sora_aasb ; name of the rw (musb, pusb, dvg, hmg, etc.)
 
-restart_emulator = 1 ; should the game restart emulator after doing a certain number of runs? 1-yes 0-no
+restart_emulator = 1 ; should the game restart after doing a certain number of runs? 1-yes 0-no
 restart_number = 50 ; how many runs should the game do before restarting
 
-characters = braska, papalymo, rydia, terra, alphinaud
+characters = locke, sora, ramza, cid_raines, vayne
 
-char_orders1 = ab1
-char_orders2 = sb, ab1, ab1, ab1, ab1
-char_orders3 = ab1
-char_orders4 = ab1
-char_orders5 = sb, ab1, ab1, ab1, ab1
+char_orders1 = sb, ab1, ab1, ab1, ab1
+char_orders2 = rw, ab1, ab1, ab1, ab1
+char_orders3 = sb, ab1, ab1, ab1, ab1
+char_orders4 = def
+char_orders5 = def

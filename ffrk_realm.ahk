@@ -110,6 +110,13 @@ while (eof = 0) {
     if (line_arr[1] = "complete_dungeon") {
         complete_dungeon := line_arr[2]
     }
+
+	if (line_arr[1] = "use_stamina_pot") {
+		use_stamina_pot := line_arr[2]
+		if (use_stamina_pot > 0) {
+			potion := "potion.png"
+		}
+	}
 	
 	if (line_arr[1] = "use_rw") {
 		use_rw := line_arr[2]
@@ -236,10 +243,10 @@ if (run_counter >= restart_number and restart_emulator = 1) {
 }
 
 if (auto_battle > 0) {
-    FindImageAndCheck("cancel.png", "auto.png", "begin2.png", "begin.png", battle_img, "potion.png", "yes2.png", "ok7.png")
+    FindImageAndCheck("cancel.png", "auto.png", "begin2.png", "begin.png", battle_img, potion, "yes2.png", "ok7.png")
 }
 else {
-    FindImageAndCheck("auto.png", "cancel.png", "begin2.png", "begin.png", battle_img, "potion.png", "yes2.png", "ok7.png")
+    FindImageAndCheck("auto.png", "cancel.png", "begin2.png", "begin.png", battle_img, potion, "yes2.png", "ok7.png")
 }
 
 ^!m::

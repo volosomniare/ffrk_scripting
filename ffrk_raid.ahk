@@ -177,7 +177,7 @@ mag := (emulator = "memu") ? [300, 680] : [300, 700]
 
 ;friend list coordinates
 frnd := (emulator = "memu") ? [70, 400] : [70, 400]
-fol := (emulator = "memu") ? [400, 750] : [420, 770]
+fol := (emulator = "memu") ? [400, 750] : [420, 700]
 frnd_id := (emulator = "memu") ? [150, 420] : [150, 450]
 
 ^!s:: ; Start from the main screen (dungeon difficulty select screen)
@@ -326,6 +326,8 @@ Loop {
 		file.Seek(total_run_counter_pos)
 		line := "total_run_counter = " . total_run_counter
 		file.WriteLine(line)
+		line := "green_counter = " . green_counter
+		file.WriteLine(line)
 		file.Close()
 		Goto StartScreen
 	}
@@ -334,12 +336,6 @@ Loop {
 	}
 	if (greenX > 0) {
 		green_counter := green_counter + 1
-		file_name := "config.txt"
-		file := FileOpen(file_name, "rw `n")
-		file.Seek(green_counter_pos)
-		line := "green_counter = " . green_counter
-		file.WriteLine(line)
-		file.Close()
 	}
 	if (bossX > 0) {
 		run_counter := run_counter + 1
@@ -348,6 +344,8 @@ Loop {
 		file := FileOpen(file_name, "rw `n")
 		file.Seek(total_run_counter_pos)
 		line := "total_run_counter = " . total_run_counter
+		file.WriteLine(line)
+		line := "green_counter = " . green_counter
 		file.WriteLine(line)
 		file.Close()
 		Goto MainScreen
@@ -428,7 +426,7 @@ Loop 100 {
 	if (ErrorLevel = 0) {
 		break
 	}
-	Loop 10{
+	Loop 50{
 		ImageSearch, followingX, followingY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/following.png
 		if (ErrorLevel = 0) {
 			frndX := frnd[1]
@@ -439,7 +437,7 @@ Loop 100 {
 		}
 		Sleep 100
 	}
-	Loop 10{
+	Loop 50{
 		ImageSearch, unfollow_closeX, unfollow_closeY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/unfollow_close.png
 		if (ErrorLevel = 0) {
 			unfolX := fol[1]
@@ -450,7 +448,7 @@ Loop 100 {
 		}
 		Sleep 100
 	}
-	Loop 10{
+	Loop 50{
 		ImageSearch, unfollow2X, unfollow2Y, 0, 0, WinWidth, WinHeight, *25 %img_dir%/unfollow2.png
 		if (ErrorLevel = 0) {
 			Click %unfollow2X%, %unfollow2Y%
@@ -459,7 +457,7 @@ Loop 100 {
 		}
 		Sleep 100
 	}
-	Loop 10{
+	Loop 50{
 		ImageSearch, unfollow_okX, unfollow_okY, 0, 0, WinWidth, WinHeight, *25 %img_dir%/unfollow_ok.png
 		if (ErrorLevel = 0) {
 			Click %unfollow_okX%, %unfollow_okY%
