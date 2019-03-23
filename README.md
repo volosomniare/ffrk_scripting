@@ -3,6 +3,7 @@
 The purpose of these scripts is to autoplay certain battles in Final Fantasy Record Keeper on an emulator.
 
 ## Prerequistes
+* Computer with the ability to change display resolution to 1920x1080 (if your max resolution is less than that, you will likely have to manually create the images in the images folder yourself)
 * MuMu App Player (http://mumu.163.com/global/download/en/)
 * FFRK installed and working on MuMu
 * AutoHotkey (https://www.autohotkey.com)
@@ -25,6 +26,11 @@ Each of these lines can be customized for your specific needs. Below are some of
 3. Double click `ffrk_raid.ahk` and there should be a green H icon on the right side of your taskbar
 4. Open ffrk in MuMu and go to the raid screen that displays the difficulty
 5. Press Ctr-Alt-C and the script will start running
+
+## FAQ/Troubleshooting
+* "the script won't start" - this is mainly caused by the script unable to find the image. Possible solutions include: 
+    * From u/moogleknight: ```I tried many different resolutions and nada. However, I did a quick google search about the 'ImageSearch' function that AHK was using and after some reading, I turned off Anti-aliasing and Gamma correction in my Nvidia control panel and the script started to work. My guess is that the gamma correction changed the color of the images enough that they were no longer recognised as matching.```
+    * Increase the shade variation option to a higher value (although above 100 is not recommended).
 
 ## Appendix/Updates
 ### 2019/03/20
